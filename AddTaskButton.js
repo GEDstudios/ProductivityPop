@@ -9,7 +9,7 @@ class AddTaskButton {
                 isStatic: true,
 
                 render: {
-                    fillStyle: '#fff', // Sets the fill color to red
+                    fillStyle: '#11bb33', // Sets the fill color to red
                     strokeStyle: 'black', // Sets the border color to black
                     lineWidth: 1 // Sets the border width
                 },
@@ -27,6 +27,7 @@ class AddTaskButton {
 
     StartPress() {
         this.Pressed = true;
+        this.body.render.fillStyle = '#22cc44';
     }
 
     EndPress() {
@@ -35,6 +36,7 @@ class AddTaskButton {
         this.ScalerMulti = 1;
         this.Scaler = 1;
         this.Pressed = false;
+        this.body.render.fillStyle = '#11bb33';
     }
 
 
