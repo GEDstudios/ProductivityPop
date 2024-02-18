@@ -42,7 +42,7 @@ render.mouse = mouse;
 
 //#endregion
 
-let defaultBubbleSize = Math.sqrt(window.outerWidth);
+let defaultBubbleSize = Math.sqrt(window.innerWidth * 1.5);
 
 let addTaskButton = new AddTaskButton();
 let bubbleStack = Composites.stack();
@@ -146,7 +146,7 @@ function SetBubblesCenterAttraction() {
 //#region RENDERING
 Matter.Events.on(render, 'afterRender', function () {
 
-  DrawTextOnBubble(addTaskButton.body, 'bottom', false, 100, true);
+  DrawTextOnBubble(addTaskButton.body, 'bottom', true, 10, true);
 
   bubbleStack.bodies.forEach(bubble => {
     DrawTextOnBubble(bubble, 'middle', true);
