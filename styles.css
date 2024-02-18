@@ -1,0 +1,7 @@
+.addTaskSlider {
+  background-color: red;
+  position: absolute;
+  display: flex;
+  width: auto;
+  z-index: 10000000000;
+}
