@@ -134,7 +134,7 @@ function SetBubblesCenterAttraction() {
     //attract to center
     let force = Vector.mult(
       Vector.sub(addTaskButton.body.position, bubble.position),
-      bubble.area * 0.000000005
+      bubble.area * 0.000000004
 
     );
     Body.applyForce(bubble, bubble.position, force);
