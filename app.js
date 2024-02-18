@@ -46,7 +46,7 @@ render.mouse = mouse;
 
 //#endregion
 
-let defaultBubbleSize = 50 - window.innerWidth * 0.01;
+let defaultBubbleSize = 70 - window.innerWidth * 0.01;
 
 let addTaskButton = new AddTaskButton();
 let bubbleStack = Composites.stack();
