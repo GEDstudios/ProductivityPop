@@ -63,7 +63,7 @@ class AddTaskButton {
     }
 
     ScaleWithTime() {
-        addTaskButton.Scaler += engine.timing.lastDelta * 0.00001;
+        addTaskButton.Scaler += engine.timing.lastDelta * 0.0001;
         addTaskButton.ScalerMulti *= addTaskButton.Scaler;
         Body.scale(addTaskButton.body, addTaskButton.Scaler, addTaskButton.Scaler);
     }

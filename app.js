@@ -18,6 +18,10 @@ let engine = Engine.create();
 
 engine.gravity.scale = 0;
 
+let runner = Runner.create({
+  isFixed: true
+})
+
 let render = Render.create({
   element: document.body,
   engine: engine,
@@ -134,7 +138,7 @@ function SetBubblesCenterAttraction() {
     //attract to center
     let force = Vector.mult(
       Vector.sub(addTaskButton.body.position, bubble.position),
-      bubble.area * 0.000000005
+      bubble.area * 0.00000001
 
     );
     Body.applyForce(bubble, bubble.position, force);
