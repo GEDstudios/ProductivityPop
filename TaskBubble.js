@@ -7,7 +7,7 @@ class TaskBubble {
         Composite.add(bubbleStack, this.body);
         Body.scale(this.body, ClusterScaler, ClusterScaler);
         this.body.taskBubble = this;
-        this.body.name = this.body.id;
+        this.body.name = name;
     }
 
     StartPress() {

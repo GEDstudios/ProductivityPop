@@ -45,12 +45,62 @@ render.mouse = mouse;
 //#endregion
 
 //#endregion
+const addTaskForm = document.querySelector(".add-task");
+const backdrop = document.querySelector(".black-backdrop");
+const addBtn = document.querySelector(".add-btn");
+const taskNameInput = document.getElementById("task-input");
+addBtn.addEventListener("click", CreateTask);
+const cancleBtn = document.querySelector(".cancel-btn");
+cancleBtn.addEventListener("click", cancelTaskCreation);
+backdrop.addEventListener("click", cancelTaskCreation);
+
+
 
 let defaultBubbleSize = 40;
 
 let addTaskButton = new AddTaskButton();
 let bubbleStack = Composites.stack();
 let ClusterScaler = 1;
+
+//#region TaskCreation
+function ToggleTaskForm() {
+  addTaskForm.classList.toggle("active");
+  backdrop.classList.toggle("active");
+  addTaskButton.EndPress();
+}
+
+function CreateTask() {
+  let position = GetRandomPositionOutsideScreen(defaultBubbleSize * Math.PI * 2);
+  let size = defaultBubbleSize;
+  let name = taskNameInput.value;
+  new TaskBubble(position, size, taskNameInput.value);
+  addTaskButton.EndPress();
+  ToggleTaskForm();
+}
+
+function cancelTaskCreation() {
+  addTaskButton.EndPress();
+  ToggleTaskForm();
+}
+
+function GetRandomPositionOutsideScreen(extraPadding) {
+
+  let x, y;
+  //choose horizontal sides or vertical
+  if (Math.random() < 0.5) {
+    //choose left or right
+    x = Math.random() < 0.5 ? 0 - extraPadding : window.innerWidth + extraPadding;
+    y = Math.random() * window.innerHeight;
+  }
+  else {
+    //choose left or right
+    x = Math.random() * window.innerWidth;
+    y = Math.random() < 0.5 ? 0 - extraPadding : window.innerHeight + extraPadding;
+  }
+
+  return { x, y };
+}
+//#endregion
 
 //#region Mouse Events
 let holdingMouse = false;
@@ -61,23 +111,19 @@ Events.on(mouseConstraint, "startdrag", function (e) {
   holdingMouse = true;
   lastMouseDownTime = engine.timing.timestamp;
 
-
   if (e.body == addTaskButton.body) {
     addTaskButton.StartPress();
   }
   else if (bubbleStack.bodies.includes(e.body)) {
     e.body.taskBubble.StartPress();
-    lastMouseReleaseTime = 0;
   }
+  lastMouseReleaseTime = 0;
 });
 
 Events.on(mouseConstraint, "enddrag", function (e) {
 
-  if (e.body == addTaskButton.body) {
-    addTaskButton.EndPress();
-  }
-
-  else if (bubbleStack.bodies.includes(e.body)) {
+  addTaskButton.EndPress();
+  if (bubbleStack.bodies.includes(e.body)) {
     bubble = e.body.taskBubble;
     bubble.EndPress();
 
@@ -93,18 +139,11 @@ Events.on(mouseConstraint, "enddrag", function (e) {
 });
 //#endregion
 
+//#region Bubble Simulation
 //#region UPDATE
 Events.on(engine, "beforeUpdate", function () {
-
-  if (addTaskButton.Pressed) {
-    addTaskButton.ScaleWithTime();
-  }
-
-
   ScaleBoard();
   SetBubblesCenterAttraction();
-
-
 });
 
 //#region GlobalScaling
@@ -130,9 +169,8 @@ function StackToScreenDifference() {
   return result;
 }
 //#endregion
+
 function SetBubblesCenterAttraction() {
-
-
   bubbleStack.bodies.forEach(bubble => {
 
     //attract to center
@@ -150,8 +188,7 @@ function SetBubblesCenterAttraction() {
 //#region RENDERING
 Matter.Events.on(render, 'afterRender', function () {
 
-  if (!addTaskButton.Pressed)
-    DrawTextOnBubble(addTaskButton.body, 'bottom', true, 10, true);
+  DrawTextOnBubble(addTaskButton.body, 'bottom', true, 10, true);
 
   bubbleStack.bodies.forEach(bubble => {
     DrawTextOnBubble(bubble, 'middle', true);
@@ -180,3 +217,4 @@ World.add(engine.world, [bubbleStack, addTaskButton.body, mouseConstraint]);
 // Run the engine and render
 Runner.run(runner, engine);
 Render.run(render);
+//#endregion

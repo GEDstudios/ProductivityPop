@@ -7,8 +7,32 @@
     <meta http-equiv='pragma' content='no-cache'>
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
-  <body>
-    <div class="addTaskSlider"></div>
+  <body>      
+
+      <!--backdrop-->
+      <button class="black-backdrop"></button>
+
+      <!-- add task form-->
+      <div class="add-task">
+        <div class="add-task-backdrop"></div>
+        <h1 class="heading">Add Task</h1>
+        <div class="input-group">
+          <label for="text-input">Task</label>
+          <input type="text" id="task-input" required />
+        </div>
+        <div class="input-group">
+          <label for="category-select">Category</label>
+          <select name="" id="category-select">
+            <option value="personal">Personal</option>
+          </select>
+        </div>
+        <div class="btns">
+          <button class="cancel-btn">Cancel</button>
+          <button class="add-btn">add</button>
+        </div>
+      </div>
+
+
     <script src="matter.js"></script>
     <script src="TaskBubble.js"></script>
     <script src="AddTaskButton.js"></script>
