@@ -19,7 +19,7 @@ class AddTaskButton {
 
 
     StartPress() {
-        ToggleTaskForm();
+        StartCreatingTask();
         this.Pressed = true;
         this.body.render.fillStyle = '#091';
 

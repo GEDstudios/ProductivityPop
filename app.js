@@ -71,6 +71,10 @@ let addTaskButton = new AddTaskButton();
 let bubbleStack = Composites.stack();
 let ClusterScaler = 1;
 
+
+function StartCreatingTask() {
+  ToggleTaskForm();
+}
 //#region TaskCreation
 function ToggleTaskForm() {
   addTaskForm.classList.toggle("active");
@@ -153,13 +157,21 @@ Events.on(mouseConstraint, "enddrag", function (e) {
 //#region Bubble Simulation
 //#region UPDATE
 Events.on(engine, "beforeUpdate", function () {
-  ScaleBoard();
+
   SetBubblesCenterAttraction();
 });
 
+
 //#region GlobalScaling
 function ScaleBoard() {
-  let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.05, 0.99, 1.01);
+  let averageStackArea = 0;
+  bubbleStack.bodies.forEach(bubble => {
+    averageStackArea += bubble.area;
+  })
+  averageStackArea /= bubbleStack.bodies.length;
+  let scaler = (window.innerWidth * window.innerHeight) / averageStackArea;
+  let scale = lerp()
+  //let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.05, 0.99, 1.01);
 
   if (bubbleStack.bodies.length > 0)
     ClusterScaler *= scale;
@@ -168,6 +180,10 @@ function ScaleBoard() {
   }
 
   Composite.scale(bubbleStack, scale, scale, addTaskButton.body.position);
+}
+
+function lerp(start, end, amt) {
+  return (1 - amt) * start + amt * end
 }
 
 function StackToScreenDifference() {
@@ -180,6 +196,7 @@ function StackToScreenDifference() {
   return result;
 }
 //#endregion
+
 
 function SetBubblesCenterAttraction() {
   bubbleStack.bodies.forEach(bubble => {
