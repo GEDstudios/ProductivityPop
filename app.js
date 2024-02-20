@@ -47,10 +47,17 @@ render.mouse = mouse;
 //#endregion
 const addTaskForm = document.querySelector(".add-task");
 const backdrop = document.querySelector(".black-backdrop");
+
+const nameInput = document.getElementById("task-input");
+const sizeInput = document.getElementById("size-input");
+const dateInput = document.getElementById("date-input");
+const colorInput = document.getElementById("color-input");
+
 const addBtn = document.querySelector(".add-btn");
-const taskNameInput = document.getElementById("task-input");
-addBtn.addEventListener("click", CreateTask);
 const cancleBtn = document.querySelector(".cancel-btn");
+
+
+addBtn.addEventListener("click", CreateTask);
 cancleBtn.addEventListener("click", cancelTaskCreation);
 backdrop.addEventListener("click", cancelTaskCreation);
 
@@ -71,9 +78,11 @@ function ToggleTaskForm() {
 
 function CreateTask() {
   let position = GetRandomPositionOutsideScreen(defaultBubbleSize * Math.PI * 2);
-  let size = defaultBubbleSize;
-  let name = taskNameInput.value;
-  new TaskBubble(position, size, taskNameInput.value);
+  let size = sizeInput.value * 0.5 * defaultBubbleSize;
+  let name = nameInput.value;
+  let color = colorInput.value;
+  let date = dateInput.value;
+  new TaskBubble(position, size, name, color, date);
   addTaskButton.EndPress();
   ToggleTaskForm();
 }
@@ -188,27 +197,15 @@ function SetBubblesCenterAttraction() {
 //#region RENDERING
 Matter.Events.on(render, 'afterRender', function () {
 
-  DrawTextOnBubble(addTaskButton.body, 'bottom', true, 10, true);
-
+  addTaskButton.DrawPlus();
+  Z
   bubbleStack.bodies.forEach(bubble => {
-    DrawTextOnBubble(bubble, 'middle', true);
+    bubble.taskBubble.DrawText();
   });
 
 });
 
-function DrawTextOnBubble(body, textBaseline, sizeRelativeToArea = false, customSize = 1, addBtn = false) {
-  var context = render.context;
-  var pos = body.position;
-  var area = body.area;
-  var fontSize = customSize * (sizeRelativeToArea ? Math.sqrt(area * 0.5) * 0.2 : 1);
-  context.fillStyle = '#000'; // Text color
-  context.font = fontSize + 'px Arial'; // Text size and font
-  context.textAlign = 'center';
-  context.textBaseline = textBaseline;
-  var metrics = context.measureText(body.name);
-  // Adjust positions based on metrics if necessary
-  context.fillText(`${body.name}`, pos.x, pos.y + (addBtn ? metrics.width : 0));
-}
+
 //#endregion
 
 // Add bodies to the world
