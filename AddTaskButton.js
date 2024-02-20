@@ -9,9 +9,7 @@ class AddTaskButton {
                 isStatic: true,
 
                 render: {
-                    fillStyle: '#11bb33', // Sets the fill color to red
-                    strokeStyle: 'black', // Sets the border color to black
-                    lineWidth: 1 // Sets the border width
+                    fillStyle: '#11bb33'
                 },
             }
         );

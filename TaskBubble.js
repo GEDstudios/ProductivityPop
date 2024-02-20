@@ -42,7 +42,7 @@ class TaskBubble {
         var area = this.body.area;
         var fontSize = Math.sqrt(Math.sqrt(area) * 1.2);
         context.fillStyle = '#000 '; // Text color
-        context.font = fontSize + 'px Arial'; // Text size and font
+        context.font = fontSize + 'px Roboto'; // Text size and font
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         // Adjust positions based on metrics if necessary
@@ -55,7 +55,7 @@ class TaskBubble {
         var area = this.body.area;
         var fontSize = Math.sqrt(Math.sqrt(area) * 1.2) * 0.8;
         context.fillStyle = '#555 '; // Text color
-        context.font = fontSize + 'px Arial'; // Text size and font
+        context.font = fontSize + 'px Rubik'; // Text size and font
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         // Adjust positions based on metrics if necessary
