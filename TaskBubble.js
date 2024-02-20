@@ -1,17 +1,19 @@
 class TaskBubble {
-    constructor(position, size, name, color, date) {
-        this.body = Bodies.circle(position.x, position.y, size, {
+    constructor(position, color) {
+        this.body = Bodies.circle(position.x, position.y, defaultBubbleSize, {
             friction: 1,
             frictionAir: 0.1,
+            isStatic: true,
             render: {
-                fillStyle: color
+                fillStyle: color,
+                strokeStyle: 'black',
+                lineWidth: window.innerHeight * 0.01
             }
+
         });
+        this.body.taskBubble = this;
         Composite.add(bubbleStack, this.body);
         Body.scale(this.body, ClusterScaler, ClusterScaler);
-        this.body.taskBubble = this;
-        this.body.name = name;
-        this.body.date = date;
 
     }
 
@@ -29,6 +31,14 @@ class TaskBubble {
     PopBubble() {
         Composite.remove(bubbleStack, [this.body]);
         Composite.remove(engine.world, [this.body]);
+        bubbleArray.pop();
+    }
+
+
+    UpdateAttributes() {
+        this.body.name = nameInput.value;
+        this.body.date = dateInput.value;
+        this.body.render.fillStyle = colorInput.value;
     }
 
     DrawText() {

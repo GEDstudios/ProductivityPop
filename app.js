@@ -51,15 +51,14 @@ const addTaskForm = document.querySelector(".add-task");
 const backdrop = document.querySelector(".black-backdrop");
 
 const nameInput = document.getElementById("task-input");
-const sizeInput = document.getElementById("size-input");
-const dateInput = document.getElementById("date-input");
 const colorInput = document.getElementById("color-input");
+const dateInput = document.getElementById("date-input");
 
 const addBtn = document.querySelector(".add-btn");
 const cancleBtn = document.querySelector(".cancel-btn");
 
 
-addBtn.addEventListener("click", CreateTask);
+addBtn.addEventListener("click", confirmTaskCreation);
 cancleBtn.addEventListener("click", cancelTaskCreation);
 backdrop.addEventListener("click", cancelTaskCreation);
 
@@ -68,12 +67,13 @@ backdrop.addEventListener("click", cancelTaskCreation);
 let defaultBubbleSize = 200 - Math.sqrt(window.innerWidth * 15);
 
 let addTaskButton = new AddTaskButton();
+let bubbleArray = [];
 let bubbleStack = Composites.stack();
 let ClusterScaler = 1;
 
-
 function StartCreatingTask() {
   ToggleTaskForm();
+  CreateTask();
 }
 //#region TaskCreation
 function ToggleTaskForm() {
@@ -82,19 +82,36 @@ function ToggleTaskForm() {
   addTaskButton.EndPress();
 }
 
+let newBubble;
 function CreateTask() {
-  let position = GetRandomPositionOutsideScreen(defaultBubbleSize * Math.PI * 2);
-  let size = sizeInput.value * 0.5 * defaultBubbleSize;
-  let name = nameInput.value;
-  let color = colorInput.value;
-  let date = dateInput.value;
-  new TaskBubble(position, size, name, color, date);
-  addTaskButton.EndPress();
+  nameInput.value = "Task Name";
+  let position = Vector.sub(addTaskButton.body.position, Vector.create(0, window.innerHeight / 4));
+  newBubble = new TaskBubble(position);
+  bubbleArray.push(newBubble);
+}
+
+function IncreaseNewBubbleSize() {
+  if (bubbleStack.bodies.length > 1)
+    Body.scale(newBubble.body, 1.25, 1.25);
+}
+
+function DecreaseNewBubbleSize() {
+  if (bubbleStack.bodies.length > 1)
+    Body.scale(newBubble.body, 0.8, 0.8);
+}
+
+function confirmTaskCreation() {
   ToggleTaskForm();
+  //Composite.move(engine.world, newBubble.body, bubbleStack);
+  Body.setStatic(newBubble.body, false);
+  newBubble.body.render.lineWidth = 0;
+  newBubble = null;
 }
 
 function cancelTaskCreation() {
-  addTaskButton.EndPress();
+  Composite.remove(bubbleStack, newBubble.body);
+  Composite.remove(engine.world, newBubble.body);
+  delete bubbleArray.pop();
   ToggleTaskForm();
 }
 
@@ -159,32 +176,31 @@ Events.on(mouseConstraint, "enddrag", function (e) {
 Events.on(engine, "beforeUpdate", function () {
   ScaleBoard();
   SetBubblesCenterAttraction();
+
+  if (newBubble != null) {
+    newBubble.UpdateAttributes();
+  }
+
 });
 
 
 //#region GlobalScaling
 function ScaleBoard() {
-  let averageStackArea = 0;
-  bubbleStack.bodies.forEach(bubble => {
-    averageStackArea += bubble.area;
-  })
-  averageStackArea /= bubbleStack.bodies.length;
-  let scaler = (window.innerWidth * window.innerHeight) / averageStackArea;
-  let scale = lerp()
-  //let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.05, 0.99, 1.01);
+  let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.05, 0.99, 1.01);
 
-  if (bubbleStack.bodies.length > 0)
-    ClusterScaler *= scale;
-  else {
+  if (bubbleStack.bodies.length <= 0)
     ClusterScaler = 1;
+
+  else {
+    bubbleStack.bodies.forEach(bubble => {
+      Body.scale(bubble, scale, scale, bubble.position);
+    });
+    ClusterScaler *= scale;
   }
 
-  Composite.scale(bubbleStack, scale, scale, addTaskButton.body.position);
+
 }
 
-function lerp(start, end, amt) {
-  return (1 - amt) * start + amt * end
-}
 
 function StackToScreenDifference() {
   const stackBounds = Composite.bounds(bubbleStack);
@@ -215,7 +231,6 @@ function SetBubblesCenterAttraction() {
 
 //#region RENDERING
 Matter.Events.on(render, 'afterRender', function () {
-
   addTaskButton.DrawPlus();
 
   bubbleStack.bodies.forEach(bubble => {
@@ -233,4 +248,10 @@ World.add(engine.world, [bubbleStack, addTaskButton.body, mouseConstraint]);
 // Run the engine and render
 Runner.run(runner, engine);
 Render.run(render);
+//#endregionfunction 
+
+//#region Utilities
+function lerp(start, end, amt) {
+  return (1 - amt) * start + amt * end;
+}
 //#endregion

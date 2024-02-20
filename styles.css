@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  touch-action: manipulation;
 }
 
 body {
@@ -48,33 +49,59 @@ body {
   box-sizing: content-box;
   padding: 1rem;
   margin: 0.5rem;
-  border: 1px solid #000;
+  border: none;
   border-radius: 5vh;
+  background-color: #eee;
   text-align: center;
   font-size: 2vh;
   width: 30rem;
+}
+#sizeButtons {
+  display: flex;
+  width: 33rem;
+}
+#sizeButtons .sizeIncrease-btn,
+#sizeButtons .sizeDecrease-btn {
+  color: white;
+  font-size: 2rem;
+}
+
+#sizeButtons .sizeIncrease-btn {
+  background-color: #1b3;
+}
+#sizeButtons .sizeDecrease-btn {
+  background-color: #b13;
+}
+#sizeButtons .sizeIncrease-btn:active {
+  background-color: #2c4;
+}
+#sizeButtons .sizeDecrease-btn:active {
+  background-color: #c24;
 }
 
 .btns {
   display: flex;
   justify-content: space-around;
   width: 100%;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .btns button {
   padding: 2vh 4vh;
-  margin: 2vh;
+  margin: 4vh;
   border-radius: 500px;
   border: none;
   font-size: 2vh;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.3s;
 }
 
 .btns button.add-btn {
   background-color: #1b3;
   color: white;
+}
+.btns button.add-btn:active {
+  background-color: #3d5;
 }
 
 .add-task-backdrop {
@@ -97,8 +124,8 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  backdrop-filter: blur(3px);
-  background-color: rgba(0, 0, 0, 0.14);
+
+  background-color: rgba(0, 0, 0, 0);
   opacity: 0;
   visibility: hidden;
   transition: all 0.3s;

@@ -35,7 +35,7 @@ class AddTaskButton {
         var pos = this.body.position;
         var area = this.body.area;
         var fontSize = 80;
-        context.fillStyle = '#000 '; // Text color
+        context.fillStyle = '#fff '; // Text color
         context.font = fontSize + 'px Arial'; // Text size and font
         context.textAlign = 'center';
         context.textBaseline = 'bottom';

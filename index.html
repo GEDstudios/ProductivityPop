@@ -17,17 +17,17 @@
         <div class="add-task-backdrop"></div>
         <h1 class="heading">Add Task</h1>
         <div class="input-group">
-          <input type="text" value="Task Name" maxlength="20" id="task-input" required />
+          <input type="text" value="Task Name" maxlength="20" id="task-input" />
+        </div>
+        <div class="input-group" id="sizeButtons"">
+          <input type="button" class="sizeDecrease-btn" value="-" onclick="DecreaseNewBubbleSize()">
+          <input type="button" class="sizeIncrease-btn" value="+" onclick="IncreaseNewBubbleSize()">
         </div>
         <div class="input-group">
-          <input type="range" id="size-input" min="10 max="10" step="0.01" value="3" />
-            <output class="price-output" for="price"></output>
-        </div>
+          <input type="date" id="date-input" />
+        </div>s
         <div class="input-group">
-          <input type="date" id="date-input" required />
-        </div>
-        <div class="input-group">
-          <input type="color" value='#ffffff' id="color-input" required />
+          <input type="color" value='#ffffff' id="color-input"  />
         </div>
         <div class="btns">
           <button class="cancel-btn">Cancel</button>
