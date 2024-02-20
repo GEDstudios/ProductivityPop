@@ -157,7 +157,7 @@ Events.on(mouseConstraint, "enddrag", function (e) {
 //#region Bubble Simulation
 //#region UPDATE
 Events.on(engine, "beforeUpdate", function () {
-
+  ScaleBoard();
   SetBubblesCenterAttraction();
 });
 
