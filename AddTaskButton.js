@@ -6,8 +6,8 @@ class AddTaskButton {
             render.bounds.max.y / 2,
             defaultBubbleSize,
             {
-                isStatic: true,
 
+                isStatic: true,
                 render: {
                     fillStyle: '#11bb33'
                 },
