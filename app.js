@@ -29,6 +29,7 @@ let render = Render.create({
     wireframes: false,
     width: window.innerWidth,
     height: window.innerHeight,
+    background: '#efefef'
   },
 });
 
@@ -45,6 +46,7 @@ render.mouse = mouse;
 //#endregion
 
 //#endregion
+
 const addTaskForm = document.querySelector(".add-task");
 const backdrop = document.querySelector(".black-backdrop");
 
@@ -63,7 +65,7 @@ backdrop.addEventListener("click", cancelTaskCreation);
 
 
 
-let defaultBubbleSize = 40;
+let defaultBubbleSize = 200 - Math.sqrt(window.innerWidth * 15);
 
 let addTaskButton = new AddTaskButton();
 let bubbleStack = Composites.stack();
