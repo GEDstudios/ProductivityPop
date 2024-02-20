@@ -16,7 +16,6 @@ class AddTaskButton {
             }
         );
         this.body.taskBubble = this;
-        this.body.name = '+';
         this.Pressed = false;
     };
 
@@ -24,7 +23,7 @@ class AddTaskButton {
     StartPress() {
         ToggleTaskForm();
         this.Pressed = true;
-        this.body.render.fillStyle = '#2c4';
+        this.body.render.fillStyle = '#091';
 
     }
 
@@ -32,5 +31,18 @@ class AddTaskButton {
         this.Pressed = false;
         this.body.render.fillStyle = '#11bb33';
     }
-}
 
+    DrawPlus() {
+        var context = render.context;
+        var pos = this.body.position;
+        var area = this.body.area;
+        var fontSize = 80;
+        context.fillStyle = '#000 '; // Text color
+        context.font = fontSize + 'px Arial'; // Text size and font
+        context.textAlign = 'center';
+        context.textBaseline = 'bottom';
+        var metrics = context.measureText('+');
+        // Adjust positions based on metrics if necessary
+        context.fillText('+', pos.x, pos.y + metrics.width);
+    }
+}
