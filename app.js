@@ -198,7 +198,7 @@ function SetBubblesCenterAttraction() {
 Matter.Events.on(render, 'afterRender', function () {
 
   addTaskButton.DrawPlus();
-  Z
+
   bubbleStack.bodies.forEach(bubble => {
     bubble.taskBubble.DrawText();
   });
