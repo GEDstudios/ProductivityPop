@@ -9,7 +9,7 @@ class AddTaskButton {
 
                 isStatic: true,
                 render: {
-                    fillStyle: '#11bb33'
+                    fillStyle: '#696969'
                 },
             }
         );
@@ -21,13 +21,13 @@ class AddTaskButton {
     StartPress() {
         StartCreatingTask();
         this.Pressed = true;
-        this.body.render.fillStyle = '#091';
+        this.body.render.fillStyle = '#999';
 
     }
 
     EndPress() {
         this.Pressed = false;
-        this.body.render.fillStyle = '#11bb33';
+        this.body.render.fillStyle = '#696969';
     }
 
     DrawPlus() {
@@ -35,12 +35,11 @@ class AddTaskButton {
         var pos = this.body.position;
         var area = this.body.area;
         var fontSize = 80;
-        context.fillStyle = '#fff '; // Text color
-        context.font = fontSize + 'px Arial'; // Text size and font
+        context.fillStyle = '#fff ';
+        context.font = fontSize + 'px Arial';
         context.textAlign = 'center';
         context.textBaseline = 'bottom';
         var metrics = context.measureText('+');
-        // Adjust positions based on metrics if necessary
         context.fillText('+', pos.x, pos.y + metrics.width);
     }
 }

@@ -1,4 +1,3 @@
-
 //#region Matter.js setup
 var Engine = Matter.Engine,
   Bodies = Matter.Bodies,
@@ -47,9 +46,19 @@ render.mouse = mouse;
 
 //#endregion
 
+const ColorScheme = ['#db522c', '#edb71f', '#15ba57', '#22c5f9', '#832cff'];
+let defaultBubbleSize = 200 - Math.sqrt(window.innerWidth * 15);
+let rendererScale = 1;
+
+let addTaskButton = new AddTaskButton();
+let bubbleArray = [];
+let bubbleStack = Composites.stack();
+
+let ClusterScaler = 1;
+
 const addTaskForm = document.querySelector(".add-task");
 const backdrop = document.querySelector(".black-backdrop");
-
+const colorButtons = document.querySelectorAll(".colorBtn")
 const nameInput = document.getElementById("task-input");
 const colorInput = document.getElementById("color-input");
 const dateInput = document.getElementById("date-input");
@@ -61,15 +70,6 @@ const cancleBtn = document.querySelector(".cancel-btn");
 addBtn.addEventListener("click", confirmTaskCreation);
 cancleBtn.addEventListener("click", cancelTaskCreation);
 backdrop.addEventListener("click", cancelTaskCreation);
-
-
-
-let defaultBubbleSize = 200 - Math.sqrt(window.innerWidth * 15);
-
-let addTaskButton = new AddTaskButton();
-let bubbleArray = [];
-let bubbleStack = Composites.stack();
-let ClusterScaler = 1;
 
 function StartCreatingTask() {
   ToggleTaskForm();
@@ -85,9 +85,20 @@ function ToggleTaskForm() {
 let newBubble;
 function CreateTask() {
   nameInput.value = "Task Name";
+  colorButtons.forEach((btn, i) => {
+    btn.style.backgroundColor = ColorScheme[i];
+    btn.addEventListener("click", changeTaskColor);
+
+  });
   let position = Vector.sub(addTaskButton.body.position, Vector.create(0, window.innerHeight / 4));
   newBubble = new TaskBubble(position);
   bubbleArray.push(newBubble);
+}
+
+function changeTaskColor() {
+  const colorIndex = parseInt(this.value);
+  const selectedColor = ColorScheme[colorIndex];
+  newBubble.SetColor(selectedColor);
 }
 
 function IncreaseNewBubbleSize() {
@@ -181,6 +192,7 @@ Events.on(engine, "beforeUpdate", function () {
     newBubble.UpdateAttributes();
   }
 
+
 });
 
 
@@ -227,10 +239,28 @@ function SetBubblesCenterAttraction() {
 
   });
 }
-//#endregion
+
+
 
 //#region RENDERING
-Matter.Events.on(render, 'afterRender', function () {
+
+//#endregion
+function ScaleRenderer(amount, relative) {
+  minX = relative ? render.bounds.min.x + amount : amount;
+  minY = relative ? render.bounds.min.y + amount : amount;
+  maxX = relative ? render.bounds.max.x - amount : window.innerWidth - amount;
+  maxy = relative ? render.bounds.max.y - amount : window.innerHeight - amount;
+  Render.lookAt(render, {
+    min: { x: minX, y: minY },
+    max: { x: maxX, y: maxy }
+  });
+
+  rendererScale = window.innerWidth / (render.bounds.max.x - render.bounds.min.x);
+}
+
+
+Events.on(render, 'afterRender', function () {
+  //ScaleRenderer(1, true);
   addTaskButton.DrawPlus();
 
   bubbleStack.bodies.forEach(bubble => {

@@ -5,7 +5,7 @@ class TaskBubble {
             frictionAir: 0.1,
             isStatic: true,
             render: {
-                fillStyle: color,
+                fillStyle: '#15ba57',
                 strokeStyle: 'black',
                 lineWidth: window.innerHeight * 0.01
             }
@@ -38,7 +38,11 @@ class TaskBubble {
     UpdateAttributes() {
         this.body.name = nameInput.value;
         this.body.date = dateInput.value;
-        this.body.render.fillStyle = colorInput.value;
+
+    }
+
+    SetColor(color) {
+        this.body.render.fillStyle = color;
     }
 
     DrawText() {
@@ -51,7 +55,7 @@ class TaskBubble {
         var pos = this.body.position;
         var area = this.body.area;
         var fontSize = Math.sqrt(Math.sqrt(area) * 1.2);
-        context.fillStyle = '#000 '; // Text color
+        context.fillStyle = '#fff '; // Text color
         context.font = fontSize + 'px Arial'; // Text size and font
         context.textAlign = 'center';
         context.textBaseline = 'middle';
@@ -61,14 +65,15 @@ class TaskBubble {
 
     DrawDate() {
         var context = render.context;
-        var pos = this.body.position;
         var area = this.body.area;
         var fontSize = Math.sqrt(Math.sqrt(area) * 1.2) * 0.8;
-        context.fillStyle = '#555 '; // Text color
-        context.font = fontSize + 'px Arial'; // Text size and font
+        let adjustedFontSize = fontSize * rendererScale;
+        let pos = { x: this.body.position.x * rendererScale, y: this.body.position.y * rendererScale };
+        context.fillStyle = '#ddd '; // Text color
+        context.font = adjustedFontSize + 'px Arial'; // Text size and font
         context.textAlign = 'center';
         context.textBaseline = 'middle';
         // Adjust positions based on metrics if necessary
-        context.fillText(this.body.date, pos.x, pos.y + fontSize * 2);
+        context.fillText(this.body.date, pos.x, pos.y + adjustedFontSize * 2);
     }
 }

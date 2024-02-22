@@ -10,7 +10,7 @@
 body {
   margin: 0;
   height: 100vh;
-  color: #2e2e2e;
+
   background-color: #fff;
   font-family: "Rubik", sans-serif;
   overflow: hidden;
@@ -56,6 +56,7 @@ body {
   font-size: 2vh;
   width: 30rem;
 }
+
 #sizeButtons {
   display: flex;
   width: 33rem;
@@ -77,6 +78,12 @@ body {
 }
 #sizeButtons .sizeDecrease-btn:active {
   background-color: #c24;
+}
+
+.colorBtn {
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: 50%;
 }
 
 .btns {
