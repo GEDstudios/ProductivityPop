@@ -14,15 +14,14 @@ class AddTaskButton {
             }
         );
         this.body.taskBubble = this;
+        //this.body.collisionFilter.group = -1;
         this.Pressed = false;
     };
 
 
     StartPress() {
-        StartCreatingTask();
         this.Pressed = true;
         this.body.render.fillStyle = '#999';
-
     }
 
     EndPress() {
