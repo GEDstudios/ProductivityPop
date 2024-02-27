@@ -214,11 +214,10 @@ Events.on(engine, "beforeUpdate", function () {
 
 //#region GlobalScaling
 function ScaleBoard() {
-  let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.05, 0.99, 1.01);
+  let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.0002, 0.1, 1.9);
 
   if (bubbleStack.bodies.length <= 0)
     ClusterScaler = 1;
-
   else {
     bubbleStack.bodies.forEach(bubble => {
       Body.scale(bubble, scale, scale, bubble.position);
@@ -229,50 +228,27 @@ function ScaleBoard() {
 
 }
 
-
 function StackToScreenDifference() {
-  const stackBounds = Composite.bounds(bubbleStack);
-  const stackSize = { x: stackBounds.max.x - stackBounds.min.x, y: stackBounds.max.y - stackBounds.min.y };
-  const container = render.bounds;
+  let stackBounds = Composite.bounds(bubbleStack);
+  let xL = stackBounds.min.x;
+  let xR = render.bounds.max.x - stackBounds.max.x;
+  let yL = stackBounds.min.y;
+  let yR = render.bounds.max.y - stackBounds.max.y;
 
-  let outVect = Vector.create(1 - (1 / (container.max.x / stackSize.x) * 2), 1 - (1 / (container.max.y / stackSize.y) * 2));
-  result = Math.min(outVect.x, outVect.y);
-  return result;
+  return Math.min(xL, xR, yL, yR) - 100;
 }
-//#endregion
-
 
 function SetBubblesCenterAttraction() {
   bubbleStack.bodies.forEach(bubble => {
 
     //attract to center
     let force = Vector.mult(
-      Vector.sub(addTaskButton.body.position, bubble.position),
-      bubble.area * 0.00000001
-
-    );
+      Vector.sub(addTaskButton.body.position, bubble.position), bubble.area *
+    0.00000002);
     Body.applyForce(bubble, bubble.position, force);
 
   });
 }
-
-
-
-//#region RENDERING
-
-//#endregion
-// function ScaleRenderer(amount, relative) {
-//   minX = relative ? render.bounds.min.x + amount : amount;
-//   minY = relative ? render.bounds.min.y + amount : amount;
-//   maxX = relative ? render.bounds.max.x - amount : window.innerWidth - amount;
-//   maxy = relative ? render.bounds.max.y - amount : window.innerHeight - amount;
-//   Render.lookAt(render, {
-//     min: { x: minX, y: minY },
-//     max: { x: maxX, y: maxy }
-//   });
-
-//   rendererScale = window.innerWidth / (render.bounds.max.x - render.bounds.min.x);
-// }
 
 
 Events.on(render, 'afterRender', function () {

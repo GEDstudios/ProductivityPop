@@ -69,12 +69,11 @@ class TaskBubble {
         var context = render.context;
         var pos = this.body.position;
         var area = this.body.area;
-        var fontSize = Math.sqrt(Math.sqrt(area) * 1.2) * 2;
+        var fontSize = Math.sqrt(area / this.body.title.length) / 2;
         context.fillStyle = '#fff '; // Text color
         context.font = "500 " + fontSize + "px 'Rubik'"; // Text size and font
         context.textAlign = 'center';
         context.textBaseline = 'middle';
-        // Adjust positions based on metrics if necessary
         context.fillText(this.body.title, pos.x, pos.y);
     }
 
