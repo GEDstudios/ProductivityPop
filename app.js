@@ -18,9 +18,7 @@ let engine = Engine.create();
 
 engine.gravity.scale = 0;
 
-let runner = Runner.create({
-  isFixed: true
-})
+let runner = Runner.create()
 
 let render = Render.create({
   element: document.body,
@@ -101,7 +99,7 @@ function setNewBubbleColor() {
 }
 
 function IncreaseNewBubbleSize() {
-  if (bubbleStack.bodies.length > 1)
+  if (bubbleStack.bodies.length > 1 && editedBubble.body.scale > 0.1)
     Body.scale(editedBubble.body, 1.25, 1.25);
 }
 
@@ -214,7 +212,7 @@ Events.on(engine, "beforeUpdate", function () {
 
 //#region GlobalScaling
 function ScaleBoard() {
-  let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.0002, 0.1, 1.9);
+  let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.00005, 0.1, 1.9);
 
   if (bubbleStack.bodies.length <= 0)
     ClusterScaler = 1;
@@ -243,8 +241,7 @@ function SetBubblesCenterAttraction() {
 
     //attract to center
     let force = Vector.mult(
-      Vector.sub(addTaskButton.body.position, bubble.position), bubble.area *
-    0.00000002);
+      Vector.sub(addTaskButton.body.position, bubble.position), bubble.area * 0.00000001);
     Body.applyForce(bubble, bubble.position, force);
 
   });
