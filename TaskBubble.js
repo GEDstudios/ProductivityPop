@@ -2,14 +2,18 @@ class TaskBubble {
     constructor(position, color) {
         let pos = position == null ? editPosition : position;
         this.body = Bodies.circle(pos.x, pos.y, defaultBubbleSize, {
-            //friction: 1,
-            //frictionAir: 0.1,
-
+            friction: 1,
+            frictionAir: 0.05,
+            restitution: 0.5,
             render: {
                 fillStyle: color == null ? ColorScheme[2] : color,
-                strokeStyle: 'black',
+                strokeStyle: 'white',
+            },
+            collisionFilter: {
+                group: 1,
+                mask: 1,
+                category: 1,
             }
-
         });
         this.body.title = defaultTaskTitle;
         this.body.taskBubble = this;
@@ -33,10 +37,8 @@ class TaskBubble {
     FinishModify() {
         this.body.isStatic = false;
         this.body.render.lineWidth = 0;
-        setInterval(() => {
-            this.SetBubblesCenterAttraction();
-        }, 1000);
-
+        this.EndPress();
+        editedBubble = null;
     }
 
     StartPress() {
@@ -94,13 +96,5 @@ class TaskBubble {
         // Adjust positions based on metrics if necessary
         context.fillText(this.body.date, pos.x, pos.y + adjustedFontSize * 2);
     }
-    SetBubblesCenterAttraction() {
-        bubbleStack.bodies.forEach(bubble => {
-            //attract to center
-            let force = Vector.mult(
-                Vector.sub(addTaskButton.body.position, bubble.position), engine.timing.lastDelta);
-            Body.setVelocity(bubble, bubble.position, force);
 
-        });
-    }
 }

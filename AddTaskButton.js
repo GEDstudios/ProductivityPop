@@ -1,15 +1,13 @@
 
 class AddTaskButton {
     constructor() {
-        this.body = Bodies.circle(
-            render.bounds.max.x / 2,
-            render.bounds.max.y / 2,
+        this.body = Bodies.circle(this.startPos.x, this.startPos.y,
             defaultBubbleSize,
             {
 
                 isStatic: true,
                 render: {
-                    fillStyle: '#696969'
+                    fillStyle: '#cccc'
                 },
             }
         );
@@ -18,15 +16,17 @@ class AddTaskButton {
         this.Pressed = false;
     };
 
+    startPos = { x: render.bounds.max.x / 2, y: render.bounds.max.y / 2 };
+    editPos = { x: render.bounds.max.x / 2, y: render.bounds.max.y / 1.5 };
 
     StartPress() {
         this.Pressed = true;
-        this.body.render.fillStyle = '#999';
+        this.body.render.fillStyle = '#ddd';
     }
 
     EndPress() {
         this.Pressed = false;
-        this.body.render.fillStyle = '#696969';
+        this.body.render.fillStyle = '#cccc';
     }
 
     DrawPlus() {

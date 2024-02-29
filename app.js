@@ -1,3 +1,4 @@
+
 //#region Matter.js setup
 var Engine = Matter.Engine,
   Bodies = Matter.Bodies,
@@ -27,12 +28,13 @@ let render = Render.create({
     wireframes: false,
     width: window.innerWidth,
     height: window.innerHeight,
-    background: '#efefef'
+    background: '#efefef',
   },
 });
 
 //#region Mouse Setup
 let mouse = Mouse.create(render.canvas);
+
 let mouseConstraint = MouseConstraint.create(engine, {
   mouse: mouse,
   constraint: {
@@ -56,7 +58,6 @@ let ClusterScaler = 1;
 
 //#region Refrence Html Elements
 const addTaskForm = document.querySelector(".add-task");
-const backdrop = document.querySelector(".black-backdrop");
 const colorButtons = document.querySelectorAll(".colorBtn")
 const titleInput = document.getElementById("task-input");
 const colorInput = document.getElementById("color-input");
@@ -67,7 +68,7 @@ const dateInput = document.getElementById("date-input");
 document.addEventListener("DOMContentLoaded", event => {
   colorButtons.forEach((btn, i) => {
     btn.style.backgroundColor = ColorScheme[i];
-    btn.addEventListener("click", setNewBubbleColor);
+    btn.addEventListener("click", SetNewBubbleColor);
   });
 
 });
@@ -75,31 +76,44 @@ document.addEventListener("DOMContentLoaded", event => {
 //#region Task Editing and Creation
 let editedBubble;
 
-function StartCreatingTask() {
-  ToggleTaskForm();
-  editedBubble = new TaskBubble();
-}
-
+isEditing = false;
 function ToggleTaskForm() {
   addTaskForm.classList.toggle("active");
-  backdrop.classList.toggle("active");
+
+  isEditing = !isEditing;
+  if (isEditing) {
+    World.remove(engine.world, mouseConstraint);
+    Body.setPosition(addTaskButton.body, addTaskButton.editPos);
+  }
+  else {
+    World.add(engine.world, mouseConstraint);
+    Body.setPosition(addTaskButton.body, addTaskButton.startPos);
+  }
+}
+
+function StartCreatingTask() {
+  editedBubble = new TaskBubble();
+  ToggleTaskForm();
 }
 
 function StartEditingTask(bubble) {
+  // mouseConstraint.body = null;
+  ToggleTaskForm();
   editTimeout = null;
   editedBubble = bubble;
   bubble.StartModify();
-  ToggleTaskForm();
+
+
 }
 
-function setNewBubbleColor() {
+function SetNewBubbleColor() {
   const colorIndex = parseInt(this.value);
   const selectedColor = ColorScheme[colorIndex];
   editedBubble.SetColor(selectedColor);
 }
 
 function IncreaseNewBubbleSize() {
-  if (bubbleStack.bodies.length > 1 && editedBubble.body.scale > 0.1)
+  if (bubbleStack.bodies.length > 1)
     Body.scale(editedBubble.body, 1.25, 1.25);
 }
 
@@ -108,17 +122,19 @@ function DecreaseNewBubbleSize() {
     Body.scale(editedBubble.body, 0.8, 0.8);
 }
 
-function confirmTaskCreation() {
+function ConfirmTaskCreation() {
   if (editedBubble == null) return;
+
   ToggleTaskForm();
+
   editedBubble.FinishModify();
-  editedBubble.EndPress();
-  editedBubble = null;
+
 }
 
-function deleteEditedTask() {
+function DeleteEditedTask() {
   Composite.remove(bubbleStack, editedBubble.body);
   Composite.remove(engine.world, editedBubble.body);
+  editedBubble = null;
   ToggleTaskForm();
 }
 
@@ -139,6 +155,9 @@ function GetRandomPositionOutsideScreen(extraPadding) {
 
   return { x, y };
 }
+
+
+
 //#endregion
 
 //#region Mouse Events
@@ -147,12 +166,15 @@ let lastMouseDownTime = 0;
 let startMousePos = { x: mouseConstraint.mouse.position.x, y: mouseConstraint.mouse.position.y };
 let editTimeout;
 Events.on(mouseConstraint, "mousedown", function (e) {
-  lastMouseDownTime = engine.timing.timestamp;
 
+  lastMouseDownTime = engine.timing.timestamp;
+  if (editedBubble != null) {
+    return;
+  }
   mouseTarget = Query.point([addTaskButton.body, ...bubbleStack.bodies], mouseConstraint.mouse.position)[0];
 
   if (mouseTarget != null) {
-    if (addTaskButton.body == mouseTarget) {
+    if (addTaskButton.body == mouseTarget && editedBubble == null) {
       addTaskButton.StartPress();
     }
 
@@ -162,13 +184,19 @@ Events.on(mouseConstraint, "mousedown", function (e) {
       editTimeout = setTimeout(() => StartEditingTask(mouseTarget.taskBubble), editHoldDelay);
     }
   }
+
 })
 
 
 Events.on(mouseConstraint, "mouseup", function (e) {
   if (addTaskButton.Pressed) addTaskButton.EndPress();
 
+  if (editedBubble != null) {
+    return;
+  }
+
   if (mouseTarget == Query.point([addTaskButton.body, ...bubbleStack.bodies], { x: mouseConstraint.mouse.position.x, y: mouseConstraint.mouse.position.y })[0]) {
+
     if (mouseTarget != null) {
       if (mouseTarget == addTaskButton.body) {
         StartCreatingTask();
@@ -184,6 +212,8 @@ Events.on(mouseConstraint, "mouseup", function (e) {
       }
     }
   }
+
+
   if (editTimeout != null) {
     clearTimeout(editTimeout);
     editTimeout = null;
@@ -196,13 +226,14 @@ Events.on(mouseConstraint, "mouseup", function (e) {
 
 //#region UPDATE
 Events.on(engine, "beforeUpdate", function () {
+
   ScaleBoard();
-  SetBubblesCenterAttraction()
+
+  SetBubblesAttraction()
 
   if (editedBubble != null) {
     editedBubble.UpdateAttributes();
   }
-
   //Cancel Edit
   if (editTimeout != null && Vector.magnitude(Vector.sub(startMousePos, mouse.position)) > editMovementBuffer) {
     clearTimeout(editTimeout);
@@ -212,21 +243,31 @@ Events.on(engine, "beforeUpdate", function () {
 
 //#region GlobalScaling
 function ScaleBoard() {
+  let disableScaling = false;
+  bubbleStack.bodies.forEach((bubble) => {
+    if (!Bounds.contains(render.bounds, bubble.position)) {
+      disableScaling = true;
+    }
+  });
+
+  if (disableScaling) return;
+
   let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.00005, 0.1, 1.9);
 
-  if (bubbleStack.bodies.length <= 0)
+  if (bubbleStack.bodies.length <= 0) {
     ClusterScaler = 1;
+  }
+
   else {
     bubbleStack.bodies.forEach(bubble => {
       Body.scale(bubble, scale, scale, bubble.position);
     });
     ClusterScaler *= scale;
   }
-
-
 }
 
 function StackToScreenDifference() {
+
   let stackBounds = Composite.bounds(bubbleStack);
   let xL = stackBounds.min.x;
   let xR = render.bounds.max.x - stackBounds.max.x;
@@ -236,10 +277,8 @@ function StackToScreenDifference() {
   return Math.min(xL, xR, yL, yR) - 100;
 }
 
-function SetBubblesCenterAttraction() {
+function SetBubblesAttraction() {
   bubbleStack.bodies.forEach(bubble => {
-
-    //attract to center
     let force = Vector.mult(
       Vector.sub(addTaskButton.body.position, bubble.position), bubble.area * 0.00000001);
     Body.applyForce(bubble, bubble.position, force);
