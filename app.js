@@ -59,6 +59,8 @@ let ClusterScaler = 1;
 //#region Refrence Html Elements
 const addTaskForm = document.querySelector(".add-task");
 const colorButtons = document.querySelectorAll(".colorBtn")
+const sizeButtons = document.querySelectorAll(".sizeBtn")
+const sizeButtonDivs = document.querySelectorAll(".sizeBtnDiv")
 const titleInput = document.getElementById("task-input");
 const colorInput = document.getElementById("color-input");
 const dateInput = document.getElementById("date-input");
@@ -71,6 +73,10 @@ document.addEventListener("DOMContentLoaded", event => {
     btn.addEventListener("click", SetNewBubbleColor);
   });
 
+  sizeButtons.forEach((btn, i) => {
+    sizeButtonDivs[i].style.padding = btn.value * 1.5 + "rem";
+    btn.addEventListener("click", SetNewBubbleScale);
+  });
 });
 
 //#region Task Editing and Creation
@@ -109,14 +115,9 @@ function SetNewBubbleColor() {
   editedBubble.SetColor(selectedColor);
 }
 
-function IncreaseNewBubbleSize() {
-  if (bubbleStack.bodies.length > 1)
-    Body.scale(editedBubble.body, 1.25, 1.25);
-}
-
-function DecreaseNewBubbleSize() {
-  if (bubbleStack.bodies.length > 1)
-    Body.scale(editedBubble.body, 0.8, 0.8);
+function SetNewBubbleScale() {
+  const size = parseFloat(this.value);
+  editedBubble.SetScale(size);
 }
 
 function ConfirmTaskCreation() {
@@ -241,13 +242,22 @@ Events.on(engine, "beforeUpdate", function () {
 //#region GlobalScaling
 function ScaleBoard() {
   let disableScaling = false;
-  bubbleStack.bodies.forEach((bubble) => {
-    if (!Bounds.contains(render.bounds, bubble.position)) {
-      disableScaling = true;
-    }
-  });
+
+  if (bubbleStack.bodies.length <= 1) {
+    disableScaling = true;
+  }
+  else {
+    bubbleStack.bodies.forEach((bubble) => {
+      if (!Bounds.contains(render.bounds, bubble.position)) {
+        disableScaling = true;
+      }
+    });
+
+
+  }
 
   if (disableScaling) return;
+
 
   let scale = Matter.Common.clamp(1 + StackToScreenDifference() * 0.00005, 0.1, 1.9);
 
@@ -304,9 +314,3 @@ World.add(engine.world, [bubbleStack, addTaskButton.body, mouseConstraint]);
 Runner.run(runner, engine);
 Render.run(render);
 //#endregionfunction 
-
-//#region Utilities
-function lerp(start, end, amt) {
-  return (1 - amt) * start + amt * end;
-}
-//#endregion

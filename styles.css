@@ -90,10 +90,35 @@ body {
   box-shadow: 1px 3px 5px 0px #0003;
 }
 
+.colorBtn:active {
+  background-color: #fefefe !important;
+}
+
+.sizeBtn {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.2rem;
+  margin: 1.1rem;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 1.5px solid #fffc;
+  box-shadow: 1px 3px 5px 0px #0003;
+}
+
+.sizeBtn:active .sizeBtnDiv {
+  background-color: #fefefe;
+}
+.sizeBtnDiv {
+  padding: 10px;
+  border-radius: 50%;
+  background-color: rgb(41, 36, 77);
+}
 .btns {
   display: flex;
   justify-content: space-around;
-  width: 100%;
   -webkit-tap-highlight-color: transparent;
 }
 

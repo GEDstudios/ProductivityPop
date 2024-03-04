@@ -1,5 +1,5 @@
 class TaskBubble {
-    constructor(position, title = defaultTaskTitle, date, color = ColorScheme[2]) {
+    constructor(position, title = defaultTaskTitle, date, color = ColorScheme[Math.floor(Math.random() * ColorScheme.length)], scale = 1) {
         let pos = position == null ? editPosition : position;
         this.body = Bodies.circle(pos.x, pos.y, defaultBubbleSize, {
             friction: 1,
@@ -15,11 +15,13 @@ class TaskBubble {
                 category: 1,
             }
         });
+
         this.body.title = title;
         this.body.date = date;
         this.body.taskBubble = this;
+        this.body.scaler = scale;
         Composite.add(bubbleStack, this.body);
-        Body.scale(this.body, ClusterScaler, ClusterScaler);
+        Body.scale(this.body, ClusterScaler * scale, ClusterScaler * scale);
     }
 
     StartModify() {
@@ -56,6 +58,11 @@ class TaskBubble {
         Composite.remove(engine.world, [this.body]);
     }
 
+    SetScale(scale) {
+        console.log(scale / this.body.scaler);
+        Body.scale(this.body, scale / this.body.scaler, scale / this.body.scaler);
+        this.body.scaler = scale;
+    }
 
     UpdateAttributes() {
         this.body.title = titleInput.value;
