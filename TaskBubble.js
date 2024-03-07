@@ -1,5 +1,5 @@
 class TaskBubble {
-    constructor(position, title = defaultTaskTitle, date, color = ColorScheme[Math.floor(Math.random() * ColorScheme.length)], scale = 1) {
+    constructor(position, title = defaultTaskTitle, date, color = ColorScheme[Math.floor(Math.random() * ColorScheme.length)], scale = 1, id = "") {
         let pos = position == null ? editPosition : position;
         this.body = Bodies.circle(pos.x, pos.y, defaultBubbleSize, {
             friction: 1,
@@ -20,8 +20,9 @@ class TaskBubble {
         this.body.date = date;
         this.body.taskBubble = this;
         this.body.scaler = scale;
-        this.body.id = "";
-        Composite.add(bubbleStack, this.body);
+        this.body.id = id;
+        Composite.add(engine.world, this.body);
+        Composite.move(engine.world, this.body, bubbleStack);
         Body.scale(this.body, ClusterScaler * scale, ClusterScaler * scale);
     }
 

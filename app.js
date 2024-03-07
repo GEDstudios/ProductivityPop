@@ -124,7 +124,6 @@ function SetNewBubbleScale() {
 function ConfirmTaskCreation() {
 
   if (editedBubble == null) return;
-  console.log("a");
   EditDatabaseTask(editedBubble.body);
   mouseConstraint.body = null;
   ToggleTaskForm();

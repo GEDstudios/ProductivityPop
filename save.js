@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -56,12 +56,13 @@ async function EditDatabaseTask(bubbleBody) {
 
 async function DeleteDatabaseTask(bubbleBody) {
     const taskRef = doc(collection(db, "tasks"), bubbleBody.id);
+
     await deleteDoc(taskRef);
 }
 
 const querySnapshot = await getDocs(collection(db, "tasks"));
 querySnapshot.forEach((doc) => {
-    new TaskBubble({ x: 50, y: 50 }, doc.data.title, doc.data.date, doc.data.color, doc.data.scale);
+    new TaskBubble(GetRandomPositionOutsideScreen(100), doc.data().title, doc.data().date, doc.data().color, doc.data().scale, doc.id);
 });
 
 window.AddTaskToDatabase = AddTaskToDatabase;
