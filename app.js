@@ -57,6 +57,8 @@ let rendererScale = 1;
 let ClusterScaler = 1;
 
 //#region Refrence Html Elements
+const zoomDiv = document.querySelector(".zoom-div");
+const zoomBtnIcon = document.querySelector(".zoom-btn-icon");
 const addTaskForm = document.querySelector(".add-task");
 const colorButtons = document.querySelectorAll(".colorBtn")
 const sizeButtons = document.querySelectorAll(".sizeBtn")
@@ -78,6 +80,11 @@ document.addEventListener("DOMContentLoaded", event => {
     btn.addEventListener("click", SetNewBubbleScale);
   });
 });
+
+function ToggleZoomDiv() {
+  zoomBtnIcon.classList.toggle("active")
+  zoomDiv.classList.toggle("active");
+}
 
 //#region Task Editing and Creation
 let editedBubble;
@@ -156,9 +163,6 @@ function GetRandomPositionOutsideScreen(extraPadding) {
 
   return { x, y };
 }
-
-
-
 //#endregion
 
 //#region Mouse Events
@@ -166,14 +170,9 @@ let mouseTarget;
 let lastMouseDownTime = 0;
 let startMousePos = { x: mouseConstraint.mouse.position.x, y: mouseConstraint.mouse.position.y };
 let editTimeout;
-let mouseDown = false;
-let zoomDiv = document.createElement("div", { is: "zoom-div" });
+
 
 Events.on(mouseConstraint, "mousedown", function (e) {
-  if (mouseDown == true) {
-    //zoomDiv.style.zIndex = 10;
-    console.log("doubletap");
-  }
 
   mouseDown = true;
   lastMouseDownTime = engine.timing.timestamp;
@@ -198,10 +197,6 @@ Events.on(mouseConstraint, "mousedown", function (e) {
 
 
 Events.on(mouseConstraint, "mouseup", function (e) {
-  if (mouseDown == true) {
-    //zoomDiv.style.zIndex = -10;
-  }
-  mouseDown = false;
   if (addTaskButton.Pressed) addTaskButton.EndPress();
 
   if (editedBubble != null) {

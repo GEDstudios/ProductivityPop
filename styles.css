@@ -2,7 +2,6 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  touch-action: manipulation;
 }
 
 body {
@@ -15,6 +14,7 @@ body {
 }
 
 .add-task {
+  touch-action: none;
   position: fixed;
   display: flex;
   flex-direction: column;
@@ -144,6 +144,17 @@ body {
   border: 1.5px solid #fffc;
   box-shadow: 0px 0px 15px 0px #11ff4055;
 }
+.btns button.cancel-btn {
+  background-color: #c23;
+  color: white;
+  border: 1.5px solid #fffc;
+  box-shadow: 0px 0px 5px 0px rgb(171, 254, 189);
+}
+.btns button.cancel-btn:active {
+  background-color: #d45;
+  border: 1.5px solid #fffc;
+  box-shadow: 0px 0px 15px 0px #11ff4055;
+}
 
 .add-task-backdrop {
   position: absolute;
@@ -158,10 +169,43 @@ body {
   backdrop-filter: blur(10px);
 }
 
-#zoom-div {
-  width: 100px;
-  height: 100px;
-  background-color: red;
-  z-index: -100;
+.zoom-div {
+  width: 100%;
+  height: 100%;
+  display: none;
+  position: fixed;
+  touch-action: manipulation;
+}
+
+.zoom-btn {
+  margin: 50px;
+  z-index: 1;
   position: absolute;
+  display: none;
+  background-color: transparent;
+  border: none;
+}
+
+.zoom-btn-icon {
+  fill: #ccc;
+  border-radius: 50%;
+  transition-duration: 100ms;
+}
+
+.zoom-btn-icon.active {
+  fill: #2b1;
+  box-shadow: 0 0 50px #2b1;
+}
+
+/* Smartphone Portrait and Landscape */
+@media only screen and (max-device-width: 480px) {
+  .zoom-btn {
+    display: inline;
+  }
+  .zoom-div {
+    display: none;
+  }
+  .zoom-div.active {
+    display: inline;
+  }
 }

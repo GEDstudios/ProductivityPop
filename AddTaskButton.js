@@ -4,7 +4,6 @@ class AddTaskButton {
         this.body = Bodies.circle(this.startPos.x, this.startPos.y,
             defaultBubbleSize,
             {
-
                 isStatic: true,
                 render: {
                     fillStyle: '#cccc'
