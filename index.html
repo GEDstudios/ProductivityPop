@@ -6,16 +6,9 @@
     <meta http-equiv='expires' content='0'> 
     <meta http-equiv='pragma' content='no-cache'>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>      
-
-    <div class="saveBtns">
-      <button class="saveBtn" onclick="Save()">Save</button>
-      <button class="saveBtn" onclick="RestoreSave()">RestoreSave</button>
-      <button class="saveBtn" onclick="ClearSave()">ClearSave</button>
-    </div>
       <!-- add task form-->
     <div class="add-task">
       <div class="add-task-backdrop"></div>
@@ -30,10 +23,6 @@
           <button class="sizeBtn" value="1.5"><div class="sizeBtnDiv"></div></button>
           <button class="sizeBtn" value="2"><div class="sizeBtnDiv"></div></button>
       </div>
-      <!-- <div class="input-group" id="sizeButtons">
-        <input type="button" class="sizeDecrease-btn" value="-" onclick="DecreaseNewBubbleSize()">
-        <input type="button" class="sizeIncrease-btn" value="+" onclick="IncreaseNewBubbleSize()">
-      </div> -->
 
       <div class="input-group">
         <input type="date" id="date-input" />
@@ -49,16 +38,16 @@
           <button class="colorBtn" value="4">
       </div>
       <div class="btns">
-        <button class="cancel-btn" onclick="DeleteEditedTask()">Cancel</button>
+        <button class="cancel-btn" onclick="DeleteEditedTask()">Delete</button>
         <button class="add-btn" onclick="ConfirmTaskCreation()">Add</button>
       </div>
     </div>
-  
+    <script type="module" src="save.js"></script>
     <script src="matter.js"></script>
     <script src="variables.js"></script>
     <script src="TaskBubble.js"></script>
     <script src="AddTaskButton.js"></script>
     <script src="app.js"></script>
-    <script src="save.js"></script>
+
   </body>
 </html>

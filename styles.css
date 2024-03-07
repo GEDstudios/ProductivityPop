@@ -158,13 +158,10 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.saveBtns {
+#zoom-div {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  z-index: -100;
   position: absolute;
-  display: flex;
-  justify-content: space-around;
-  width: 100%;
-  padding: 1rem;
-}
-.saveBtn {
-  padding: 10px;
 }

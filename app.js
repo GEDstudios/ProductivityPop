@@ -100,6 +100,7 @@ function ToggleTaskForm() {
 
 function StartCreatingTask() {
   editedBubble = new TaskBubble();
+  AddTaskToDatabase(editedBubble.body);
   ToggleTaskForm();
 }
 
@@ -123,6 +124,8 @@ function SetNewBubbleScale() {
 function ConfirmTaskCreation() {
 
   if (editedBubble == null) return;
+  console.log("a");
+  EditDatabaseTask(editedBubble.body);
   mouseConstraint.body = null;
   ToggleTaskForm();
   editedBubble.FinishModify();
@@ -130,6 +133,7 @@ function ConfirmTaskCreation() {
 }
 
 function DeleteEditedTask() {
+  DeleteDatabaseTask(editedBubble.body);
   Composite.remove(bubbleStack, editedBubble.body);
   Composite.remove(engine.world, editedBubble.body);
   editedBubble = null;
@@ -163,8 +167,16 @@ let mouseTarget;
 let lastMouseDownTime = 0;
 let startMousePos = { x: mouseConstraint.mouse.position.x, y: mouseConstraint.mouse.position.y };
 let editTimeout;
-Events.on(mouseConstraint, "mousedown", function (e) {
+let mouseDown = false;
+let zoomDiv = document.createElement("div", { is: "zoom-div" });
 
+Events.on(mouseConstraint, "mousedown", function (e) {
+  if (mouseDown == true) {
+    //zoomDiv.style.zIndex = 10;
+    console.log("doubletap");
+  }
+
+  mouseDown = true;
   lastMouseDownTime = engine.timing.timestamp;
   if (editedBubble != null) {
     return;
@@ -187,6 +199,10 @@ Events.on(mouseConstraint, "mousedown", function (e) {
 
 
 Events.on(mouseConstraint, "mouseup", function (e) {
+  if (mouseDown == true) {
+    //zoomDiv.style.zIndex = -10;
+  }
+  mouseDown = false;
   if (addTaskButton.Pressed) addTaskButton.EndPress();
 
   if (editedBubble != null) {
@@ -313,4 +329,4 @@ World.add(engine.world, [bubbleStack, addTaskButton.body, mouseConstraint]);
 // Run the engine and render
 Runner.run(runner, engine);
 Render.run(render);
-//#endregionfunction 
+//#endregion

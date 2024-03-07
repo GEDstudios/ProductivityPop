@@ -20,6 +20,7 @@ class TaskBubble {
         this.body.date = date;
         this.body.taskBubble = this;
         this.body.scaler = scale;
+        this.body.id = "";
         Composite.add(bubbleStack, this.body);
         Body.scale(this.body, ClusterScaler * scale, ClusterScaler * scale);
     }
@@ -54,12 +55,12 @@ class TaskBubble {
     }
 
     PopBubble() {
+        DeleteDatabaseTask(this.body);
         Composite.remove(bubbleStack, [this.body]);
         Composite.remove(engine.world, [this.body]);
     }
 
     SetScale(scale) {
-        console.log(scale / this.body.scaler);
         Body.scale(this.body, scale / this.body.scaler, scale / this.body.scaler);
         this.body.scaler = scale;
     }
