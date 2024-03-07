@@ -1,7 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -19,44 +18,38 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
 const db = getFirestore(app);
 
-async function AddTaskToDatabase(bubbleBody) {
+async function CreateDatabaseTask(bubbleBody) {
     try {
-        const docRef = await addDoc(collection(db, "tasks"), {
+        const taskRef = await addDoc(collection(db, "tasks"), {
             title: bubbleBody.title,
             date: bubbleBody.date != null ? bubbleBody.date : "",
             color: bubbleBody.render.fillStyle,
             scale: bubbleBody.scaler
         });
-        bubbleBody.id = docRef.id;
-        console.log("Document written with ID: ", bubbleBody.id);
+        bubbleBody.id = taskRef.id;
+        console.log("Document added with ID: ", bubbleBody.id);
     } catch (e) {
-        console.error("Error adding document: ", e);
+        console.error("Error adding document: ", bubbleBody.id);
     }
 }
 
-
-
 async function EditDatabaseTask(bubbleBody) {
-    try {
-        const taskRef = doc(collection(db, "tasks"), bubbleBody.id);
-        await updateDoc(taskRef, {
-            title: bubbleBody.title,
-            date: bubbleBody.date != null ? bubbleBody.date : "",
-            color: bubbleBody.render.fillStyle,
-            scale: bubbleBody.scaler
-        });
-        console.log("Document edited with ID: ", bubbleBody.id);
-    } catch (e) {
-        console.error("Error edited document: ", e);
-    }
+    const taskRef = doc(collection(db, "tasks"), bubbleBody.id);
+    await updateDoc(taskRef, {
+        title: bubbleBody.title,
+        date: bubbleBody.date != null ? bubbleBody.date : "",
+        color: bubbleBody.render.fillStyle,
+        scale: bubbleBody.scaler
+    });
+    console.log("Document edited with ID: ", bubbleBody.id);
+
 }
 
 async function DeleteDatabaseTask(bubbleBody) {
-    const taskRef = doc(collection(db, "tasks"), bubbleBody.id);
-
+    const id = bubbleBody.id;
+    const taskRef = doc(collection(db, "tasks"), id);
     await deleteDoc(taskRef);
 }
 
@@ -65,6 +58,6 @@ querySnapshot.forEach((doc) => {
     new TaskBubble(GetRandomPositionOutsideScreen(100), doc.data().title, doc.data().date, doc.data().color, doc.data().scale, doc.id);
 });
 
-window.AddTaskToDatabase = AddTaskToDatabase;
+window.CreateDatabaseTask = CreateDatabaseTask;
 window.EditDatabaseTask = EditDatabaseTask;
 window.DeleteDatabaseTask = DeleteDatabaseTask;

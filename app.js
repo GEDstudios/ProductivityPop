@@ -57,8 +57,8 @@ let rendererScale = 1;
 let ClusterScaler = 1;
 
 //#region Refrence Html Elements
-const zoomDiv = document.querySelector(".zoom-div");
-const zoomBtnIcon = document.querySelector(".zoom-btn-icon");
+// const zoomDiv = document.querySelector(".zoom-div");
+// const zoomBtnIcon = document.querySelector(".zoom-btn-icon");
 const addTaskForm = document.querySelector(".add-task");
 const colorButtons = document.querySelectorAll(".colorBtn")
 const sizeButtons = document.querySelectorAll(".sizeBtn")
@@ -81,10 +81,10 @@ document.addEventListener("DOMContentLoaded", event => {
   });
 });
 
-function ToggleZoomDiv() {
-  zoomBtnIcon.classList.toggle("active")
-  zoomDiv.classList.toggle("active");
-}
+// function ToggleZoomDiv() {
+//   zoomBtnIcon.classList.toggle("active")
+//   zoomDiv.classList.toggle("active");
+// }
 
 //#region Task Editing and Creation
 let editedBubble;
@@ -96,23 +96,20 @@ function ToggleTaskForm() {
   isEditing = !isEditing;
   if (isEditing) {
     World.remove(engine.world, mouseConstraint);
-    Body.setPosition(addTaskButton.body, addTaskButton.editPos);
     editedBubble.StartModify();
   }
   else {
     World.add(engine.world, mouseConstraint);
-    Body.setPosition(addTaskButton.body, addTaskButton.startPos);
+
   }
 }
 
 function StartCreatingTask() {
   editedBubble = new TaskBubble();
-  AddTaskToDatabase(editedBubble.body);
   ToggleTaskForm();
 }
 
 function StartEditingTask(bubble) {
-  editTimeout = null;
   editedBubble = bubble;
   ToggleTaskForm();
 }
@@ -129,19 +126,26 @@ function SetNewBubbleScale() {
 }
 
 function ConfirmTaskCreation() {
-
   if (editedBubble == null) return;
-  EditDatabaseTask(editedBubble.body);
-  mouseConstraint.body = null;
+  if (editedBubble.body.id == "") {
+    CreateDatabaseTask(editedBubble.body);
+  }
+  else {
+    EditDatabaseTask(editedBubble.body);
+  }
+
   ToggleTaskForm();
   editedBubble.FinishModify();
-
 }
 
 function DeleteEditedTask() {
-  DeleteDatabaseTask(editedBubble.body);
-  Composite.remove(bubbleStack, editedBubble.body);
-  Composite.remove(engine.world, editedBubble.body);
+  if (editedBubble.body.id == "") {
+    Composite.remove(bubbleStack, editedBubble.body);
+    Composite.remove(engine.world, editedBubble.body);
+  }
+  else {
+    editedBubble.FinishModify();
+  }
   editedBubble = null;
   ToggleTaskForm();
 }
@@ -169,8 +173,6 @@ function GetRandomPositionOutsideScreen(extraPadding) {
 let mouseTarget;
 let lastMouseDownTime = 0;
 let startMousePos = { x: mouseConstraint.mouse.position.x, y: mouseConstraint.mouse.position.y };
-let editTimeout;
-
 
 Events.on(mouseConstraint, "mousedown", function (e) {
 
@@ -189,7 +191,6 @@ Events.on(mouseConstraint, "mousedown", function (e) {
     else if (bubbleStack.bodies.includes(mouseTarget)) {
       mouseTarget.taskBubble.StartPress();
       startMousePos = Vector.create(mouseConstraint.mouse.position.x, mouseConstraint.mouse.position.y);
-      editTimeout = setTimeout(() => StartEditingTask(mouseTarget.taskBubble), editHoldDelay);
     }
   }
 
@@ -211,23 +212,21 @@ Events.on(mouseConstraint, "mouseup", function (e) {
       }
 
       if (bubbleStack.bodies.includes(mouseTarget)) {
-        let bubble = mouseTarget.taskBubble;
+        mouseTarget.taskBubble.EndPress();
         let clickDuration = engine.timing.timestamp - lastMouseDownTime;
         if (clickDuration < popCancelDelay) {
-          bubble.PopBubble();
+          mouseTarget.taskBubble.PopBubble();
         }
 
+        if (Vector.magnitude(Vector.sub(startMousePos, mouse.position)) <= editMovementBuffer) {
+          if (clickDuration > editHoldDelay) {
+            StartEditingTask(mouseTarget.taskBubble);
+          }
+        }
       }
     }
   }
-
-
-  if (editTimeout != null) {
-    clearTimeout(editTimeout);
-    editTimeout = null;
-  }
 });
-
 //#endregion
 
 //#region Bubble Simulation
@@ -242,10 +241,11 @@ Events.on(engine, "beforeUpdate", function () {
   if (editedBubble != null) {
     editedBubble.UpdateAttributes();
   }
-  //Cancel Edit
-  if (editTimeout != null && Vector.magnitude(Vector.sub(startMousePos, mouse.position)) > editMovementBuffer) {
-    clearTimeout(editTimeout);
-    editTimeout = null;
+
+  if (mouseTarget != null && bubbleStack.bodies.includes(mouseTarget) && Vector.magnitude(Vector.sub(startMousePos, mouse.position)) >= editMovementBuffer) {
+    {
+      mouseTarget.taskBubble.ClearOutline();
+    }
   }
 });
 
@@ -262,8 +262,6 @@ function ScaleBoard() {
         disableScaling = true;
       }
     });
-
-
   }
 
   if (disableScaling) return;

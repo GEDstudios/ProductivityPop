@@ -7,7 +7,7 @@ class TaskBubble {
             restitution: 0.5,
             render: {
                 fillStyle: color,
-                strokeStyle: 'white',
+                strokeStyle: '#ddd',
             },
             collisionFilter: {
                 group: 1,
@@ -27,6 +27,7 @@ class TaskBubble {
     }
 
     StartModify() {
+
         titleInput.value = this.body.title;
         dateInput.value = null;
         if (this.body.date != null) {
@@ -35,26 +36,41 @@ class TaskBubble {
 
         editedBubble = this;
         this.body.isStatic = true;
+        this.EndPress();
+        this.body.render.strokeStyle = "#fff"
         Body.setPosition(this.body, editPosition);
-        this.body.render.lineWidth = window.innerHeight * 0.01;
+        this.body.render.lineWidth = window.innerHeight * 0.015;
     }
 
     FinishModify() {
         this.body.isStatic = false;
-        this.body.render.lineWidth = 0;
         this.EndPress();
         editedBubble = null;
+        this.ClearOutline();
     }
 
     StartPress() {
+        const endWidth = window.innerHeight * 0.015;
+        this.outlineInterval = setInterval(() => {
+            this.body.render.lineWidth = Math.min(lerp(engine.timing.timestamp, lastMouseDownTime, lastMouseDownTime + editHoldDelay, 0, endWidth), endWidth);
+            if (this.body.render.lineWidth >= endWidth) {
+                this.body.render.strokeStyle = "#fff"
+            }
+
+        }, engine.timing.lastDelta);
 
     }
 
     EndPress() {
+        clearInterval(this.outlineInterval);
         Body.setVelocity(this.body, { x: 0, y: 0 });
         Body.setAngularVelocity(this.body, 0);
     }
 
+    ClearOutline() {
+        this.body.render.strokeStyle = "#ddd"
+        this.body.render.lineWidth = 0;
+    }
     PopBubble() {
         DeleteDatabaseTask(this.body);
         Composite.remove(bubbleStack, [this.body]);

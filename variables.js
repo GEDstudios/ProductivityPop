@@ -9,8 +9,8 @@ let editPosition = { x: window.innerWidth / 2, y: window.innerHeight / 4 };
 let editMovementBuffer = 50;
 
 //#region Utilities
-function lerp(start, end, amt) {
-    return (1 - amt) * start + amt * end;
+function lerp(t, MinInput, MaxInput, MinOutput, MaxOutput) {
+    return MinOutput + ((t - MinInput) * (MaxOutput - MinOutput)) / (MaxInput - MinInput);
 }
 
 function easeInOutQuad(t) {

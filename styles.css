@@ -169,7 +169,7 @@ body {
   backdrop-filter: blur(10px);
 }
 
-.zoom-div {
+/* .zoom-div {
   width: 100%;
   height: 100%;
   display: none;
@@ -178,6 +178,7 @@ body {
 }
 
 .zoom-btn {
+  right: 0%;
   margin: 50px;
   z-index: 1;
   position: absolute;
@@ -193,11 +194,10 @@ body {
 }
 
 .zoom-btn-icon.active {
-  fill: #2b1;
-  box-shadow: 0 0 50px #2b1;
+  fill: #b12;
+  box-shadow: 0 0 50px #b12;
 }
 
-/* Smartphone Portrait and Landscape */
 @media only screen and (max-device-width: 480px) {
   .zoom-btn {
     display: inline;
@@ -208,4 +208,4 @@ body {
   .zoom-div.active {
     display: inline;
   }
-}
+} */

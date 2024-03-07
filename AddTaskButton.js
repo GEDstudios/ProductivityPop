@@ -6,7 +6,7 @@ class AddTaskButton {
             {
                 isStatic: true,
                 render: {
-                    fillStyle: '#cccc'
+                    fillStyle: '#ccc'
                 },
             }
         );
@@ -25,7 +25,7 @@ class AddTaskButton {
 
     EndPress() {
         this.Pressed = false;
-        this.body.render.fillStyle = '#cccc';
+        this.body.render.fillStyle = '#ccc';
     }
 
     DrawPlus() {
