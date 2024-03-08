@@ -57,8 +57,8 @@ let rendererScale = 1;
 let ClusterScaler = 1;
 
 //#region Refrence Html Elements
-// const zoomDiv = document.querySelector(".zoom-div");
-// const zoomBtnIcon = document.querySelector(".zoom-btn-icon");
+const zoomDiv = document.querySelector(".zoom-div");
+const zoomBtnIcon = document.querySelector(".zoom-btn-icon");
 const addTaskForm = document.querySelector(".add-task");
 const colorButtons = document.querySelectorAll(".colorBtn")
 const sizeButtons = document.querySelectorAll(".sizeBtn")
@@ -81,10 +81,10 @@ document.addEventListener("DOMContentLoaded", event => {
   });
 });
 
-// function ToggleZoomDiv() {
-//   zoomBtnIcon.classList.toggle("active")
-//   zoomDiv.classList.toggle("active");
-// }
+function ToggleZoomDiv() {
+  zoomBtnIcon.classList.toggle("active")
+  zoomDiv.classList.toggle("active");
+}
 
 //#region Task Editing and Creation
 let editedBubble;
