@@ -181,6 +181,12 @@ Events.on(mouseConstraint, "mousedown", function (e) {
   if (editedBubble != null) {
     return;
   }
+  if (mouseTarget != null) {
+    if (bubbleStack.bodies.includes(mouseTarget)) {
+      mouseTarget.taskBubble.EndPress();
+      mouseTarget.taskBubble.ClearOutline();
+    }
+  }
   mouseTarget = Query.point([addTaskButton.body, ...bubbleStack.bodies], mouseConstraint.mouse.position)[0];
 
   if (mouseTarget != null) {
@@ -203,29 +209,31 @@ Events.on(mouseConstraint, "mouseup", function (e) {
   if (editedBubble != null) {
     return;
   }
+  if (mouseTarget != null) {
 
-  if (mouseTarget == Query.point([addTaskButton.body, ...bubbleStack.bodies], { x: mouseConstraint.mouse.position.x, y: mouseConstraint.mouse.position.y })[0]) {
-
-    if (mouseTarget != null) {
+    if (mouseTarget == Query.point([addTaskButton.body, ...bubbleStack.bodies], { x: mouseConstraint.mouse.position.x, y: mouseConstraint.mouse.position.y })[0]) {
       if (mouseTarget == addTaskButton.body) {
         StartCreatingTask();
       }
+    }
 
-      if (bubbleStack.bodies.includes(mouseTarget)) {
-        mouseTarget.taskBubble.EndPress();
-        let clickDuration = engine.timing.timestamp - lastMouseDownTime;
-        if (clickDuration < popCancelDelay) {
-          mouseTarget.taskBubble.PopBubble();
-        }
+    if (bubbleStack.bodies.includes(mouseTarget)) {
+      mouseTarget.taskBubble.EndPress();
+      mouseTarget.taskBubble.ClearOutline();
 
-        if (Vector.magnitude(Vector.sub(startMousePos, mouse.position)) <= editMovementBuffer) {
-          if (clickDuration > editHoldDelay) {
-            StartEditingTask(mouseTarget.taskBubble);
-          }
+      let clickDuration = engine.timing.timestamp - lastMouseDownTime;
+      if (clickDuration < popCancelDelay) {
+        mouseTarget.taskBubble.PopBubble();
+      }
+
+      if (Vector.magnitude(Vector.sub(startMousePos, mouse.position)) <= editMovementBuffer) {
+        if (clickDuration > editHoldDelay) {
+          StartEditingTask(mouseTarget.taskBubble);
         }
       }
     }
   }
+
 });
 //#endregion
 

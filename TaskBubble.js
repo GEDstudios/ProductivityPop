@@ -7,7 +7,7 @@ class TaskBubble {
             restitution: 0.5,
             render: {
                 fillStyle: color,
-                strokeStyle: '#ddd',
+                strokeStyle: '#292455',
             },
             collisionFilter: {
                 group: 1,
@@ -38,7 +38,10 @@ class TaskBubble {
         this.body.isStatic = true;
         this.EndPress();
         this.body.render.strokeStyle = "#fff"
-        Body.setPosition(this.body, editPosition);
+        this.editInterval = setInterval(() => {
+            Body.setPosition(this.body, editPosition);
+        }, 100);
+
         this.body.render.lineWidth = window.innerHeight * 0.015;
     }
 
@@ -47,6 +50,7 @@ class TaskBubble {
         this.EndPress();
         editedBubble = null;
         this.ClearOutline();
+        clearInterval(this.editInterval);
     }
 
     StartPress() {
@@ -68,7 +72,7 @@ class TaskBubble {
     }
 
     ClearOutline() {
-        this.body.render.strokeStyle = "#ddd"
+        this.body.render.strokeStyle = "#292455"
         this.body.render.lineWidth = 0;
     }
     PopBubble() {
@@ -85,7 +89,6 @@ class TaskBubble {
     UpdateAttributes() {
         this.body.title = titleInput.value;
         this.body.date = dateInput.value;
-
     }
 
     SetColor(color) {
