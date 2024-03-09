@@ -33,7 +33,7 @@ async function SignIn(button) {
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
-            button.remove();
+            button.target.parentNode.remove();
         }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
