@@ -84,6 +84,17 @@ document.addEventListener("DOMContentLoaded", event => {
 function ToggleZoomDiv() {
   zoomBtnIcon.classList.toggle("active")
   zoomDiv.classList.toggle("active");
+
+  if (render.context.getTransform().a == 3) {
+    render.context.translate(render.canvas.width / 3, render.canvas.height / 3)
+
+    render.context.setTransform(1, 0, 0, 1, 0, 0);
+  }
+  else {
+    render.context.setTransform(3, 0, 0, 3, 0, 0);
+
+    render.context.translate(-render.canvas.width / 3, -render.canvas.height / 3)
+  }
 }
 
 //#region Task Editing and Creation
@@ -330,3 +341,4 @@ World.add(engine.world, [bubbleStack, addTaskButton.body, mouseConstraint]);
 Runner.run(runner, engine);
 Render.run(render);
 //#endregion
+
