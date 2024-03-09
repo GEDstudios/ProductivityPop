@@ -87,3 +87,4 @@ querySnapshot.forEach((doc) => {
 window.CreateDatabaseTask = CreateDatabaseTask;
 window.EditDatabaseTask = EditDatabaseTask;
 window.DeleteDatabaseTask = DeleteDatabaseTask;
+window.SignIn = SignIn;
