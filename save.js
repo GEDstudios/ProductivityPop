@@ -23,7 +23,7 @@ const db = getFirestore(app);
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-async function SignIn(button) {
+async function SignIn(event) {
     signInWithPopup(auth, provider)
         .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
@@ -33,7 +33,7 @@ async function SignIn(button) {
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
-            button.target.parentNode.remove();
+            event.target.parentNode.parentNode.remove();
         }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
