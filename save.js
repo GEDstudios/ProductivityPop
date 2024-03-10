@@ -30,14 +30,20 @@ const loginDiv = document.querySelector(".login-div");
 
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        const uid = user.uid;
-        loginDiv.remove();
-    } else {
+        if (user.email == "guyguyeks@gmail.com") {
+            loginDiv.remove();
+        }
+        console.log("not guy ekstein");
+    }
+    else {
         console.log("no user");
     }
 });
 
 async function SignIn() {
+
+    if (auth.user != null) return;
+
     signInWithPopup(auth, provider)
         .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
@@ -92,10 +98,10 @@ async function DeleteDatabaseTask(bubbleBody) {
     await deleteDoc(taskRef);
 }
 
-const querySnapshot = await getDocs(collection(db, "tasks"));
-querySnapshot.forEach((doc) => {
-    new TaskBubble(GetRandomPositionOutsideScreen(100), doc.data().title, doc.data().date, doc.data().color, doc.data().scale, doc.id);
-});
+// const querySnapshot = await getDocs(collection(db, "tasks"));
+// querySnapshot.forEach((doc) => {
+//     new TaskBubble(GetRandomPositionOutsideScreen(100), doc.data().title, doc.data().date, doc.data().color, doc.data().scale, doc.id);
+// });
 
 window.CreateDatabaseTask = CreateDatabaseTask;
 window.EditDatabaseTask = EditDatabaseTask;
