@@ -9,7 +9,7 @@ body {
   height: 100vh;
 
   background-color: #fff;
-  font-family: "Rubik", serif;
+  font-family: "Rubik", sans-serif;
   overflow: hidden;
 }
 
@@ -194,8 +194,8 @@ body {
 }
 
 .zoom-btn-icon.active {
-  fill: #b12;
-  box-shadow: 0 0 50px #b12;
+  fill: #c23;
+  box-shadow: 0 0 50px #c23;
 }
 
 @media only screen and (max-device-width: 480px) {
@@ -214,7 +214,7 @@ body {
   width: 100%;
   height: 100%;
   position: absolute;
-  backdrop-filter: blur(10px) brightness(110%);
+  backdrop-filter: blur(20px) brightness(110%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -222,8 +222,12 @@ body {
 }
 
 .login-btn {
-  padding: 5px;
-  width: 10vh;
-  height: 10vh;
+  font-weight: 600;
+  width: 20rem;
+  height: 20rem;
+  font-size: 2rem;
+  color: white;
+  background-color: black;
+  border: none;
   border-radius: 50%;
 }

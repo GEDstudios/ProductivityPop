@@ -34,6 +34,7 @@ onAuthStateChanged(auth, (user) => {
             loginDiv.remove();
         }
         console.log("not guy ekstein");
+        loginDiv.innerHTML = "Pleas be <br> Guy Ekstein"
     }
     else {
         console.log("no user");
@@ -98,10 +99,10 @@ async function DeleteDatabaseTask(bubbleBody) {
     await deleteDoc(taskRef);
 }
 
-// const querySnapshot = await getDocs(collection(db, "tasks"));
-// querySnapshot.forEach((doc) => {
-//     new TaskBubble(GetRandomPositionOutsideScreen(100), doc.data().title, doc.data().date, doc.data().color, doc.data().scale, doc.id);
-// });
+const querySnapshot = await getDocs(collection(db, "tasks"));
+querySnapshot.forEach((doc) => {
+    new TaskBubble(GetRandomPositionOutsideScreen(100), doc.data().title, doc.data().date, doc.data().color, doc.data().scale, doc.id);
+});
 
 window.CreateDatabaseTask = CreateDatabaseTask;
 window.EditDatabaseTask = EditDatabaseTask;
