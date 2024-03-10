@@ -26,16 +26,11 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 const loginDiv = document.querySelector(".login-div");
-if (auth.currentUser) {
-    console.log(auth.currentUser);
-}
-else {
-    console.log("no user");
-}
+
 onAuthStateChanged(auth, (user) => {
     if (user) {
         const uid = user.uid;
-        console.log("user logged in");
+        console.log(auth.currentUser);
     } else {
         console.log("user logged out");
     }
