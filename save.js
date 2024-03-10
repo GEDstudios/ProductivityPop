@@ -27,6 +27,11 @@ const provider = new GoogleAuthProvider();
 
 const loginDiv = document.querySelector(".login-div");
 
+
+if (auth.currentUser) {
+    loginDiv.remove();
+}
+
 onAuthStateChanged(auth, (user) => {
     if (user) {
         const uid = user.uid;
