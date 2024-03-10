@@ -28,16 +28,12 @@ const provider = new GoogleAuthProvider();
 const loginDiv = document.querySelector(".login-div");
 
 
-if (auth.currentUser) {
-    loginDiv.remove();
-}
-
 onAuthStateChanged(auth, (user) => {
     if (user) {
         const uid = user.uid;
-        console.log(auth.currentUser);
+        loginDiv.remove();
     } else {
-        console.log("user logged out");
+        console.log("no user");
     }
 });
 
@@ -51,7 +47,6 @@ async function SignIn() {
             const user = result.user;
             // IdP data available using getAdditionalUserInfo(result)
             // ...
-            loginDiv.remove();
         }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
