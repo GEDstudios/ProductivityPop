@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -17,6 +17,7 @@ const firebaseConfig = {
     measurementId: "G-X4SNB5YDTC"
 };
 
+
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -25,6 +26,20 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 
 const loginDiv = document.querySelector(".login-div");
+if (auth.currentUser) {
+    console.log(auth.currentUser);
+}
+else {
+    console.log("no user");
+}
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        const uid = user.uid;
+        console.log("user logged in");
+    } else {
+        console.log("user logged out");
+    }
+});
 
 async function SignIn() {
     signInWithPopup(auth, provider)
