@@ -33,8 +33,12 @@ onAuthStateChanged(auth, (user) => {
         if (user.email == "guyguyeks@gmail.com") {
             loginDiv.remove();
         }
-        console.log("not guy ekstein");
-        loginDiv.firstChild.innerHTML = "Pleas be <br> Guy Ekstein"
+        else {
+
+
+            console.log("not guy ekstein");
+            loginDiv.firstChild.innerHTML = "Pleas be <br> Guy Ekstein</br>"
+        }
     }
     else {
         console.log("no user");
@@ -100,6 +104,7 @@ async function DeleteDatabaseTask(bubbleBody) {
 }
 
 async function SignOut() {
+    if (auth.user == null) return;
     SignOut(auth);
 }
 
