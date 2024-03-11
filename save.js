@@ -99,6 +99,10 @@ async function DeleteDatabaseTask(bubbleBody) {
     await deleteDoc(taskRef);
 }
 
+async function SignOut() {
+    SignOut(auth);
+}
+
 const querySnapshot = await getDocs(collection(db, "tasks"));
 querySnapshot.forEach((doc) => {
     new TaskBubble(GetRandomPositionOutsideScreen(100), doc.data().title, doc.data().date, doc.data().color, doc.data().scale, doc.id);
@@ -108,3 +112,4 @@ window.CreateDatabaseTask = CreateDatabaseTask;
 window.EditDatabaseTask = EditDatabaseTask;
 window.DeleteDatabaseTask = DeleteDatabaseTask;
 window.SignIn = SignIn;
+window.SignOut = SignOut;

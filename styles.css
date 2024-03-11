@@ -231,3 +231,18 @@ body {
   border: none;
   border-radius: 50%;
 }
+
+.logout-btn {
+  font-weight: 400;
+  position: absolute;
+  right: 0%;
+  bottom: 0%;
+  margin: 1.5rem;
+  width: 3rem;
+  height: 3rem;
+  font-size: 0.5rem;
+  color: white;
+  background-color: rgb(221, 113, 113);
+  border: none;
+  border-radius: 50%;
+}

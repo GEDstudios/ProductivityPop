@@ -2,9 +2,10 @@ class TaskBubble {
     constructor(position, title = defaultTaskTitle, date, color = ColorScheme[Math.floor(Math.random() * ColorScheme.length)], scale = 1, id = "") {
         let pos = position == null ? editPosition : position;
         this.body = Bodies.circle(pos.x, pos.y, defaultBubbleSize, {
-            friction: 1,
+            friction: 5,
             frictionAir: 0.05,
-            restitution: 0.5,
+            frictionStatic: 10,
+            restitution: 0.3,
             render: {
                 fillStyle: color,
                 strokeStyle: '#292455',
@@ -15,7 +16,6 @@ class TaskBubble {
                 category: 1,
             }
         });
-
         this.body.title = title;
         this.body.date = date;
         this.body.taskBubble = this;
