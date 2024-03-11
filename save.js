@@ -34,8 +34,6 @@ onAuthStateChanged(auth, (user) => {
             loginDiv.remove();
         }
         else {
-
-
             console.log("not guy ekstein");
             loginDiv.firstChild.innerHTML = "Pleas be <br> Guy Ekstein</br>"
         }
