@@ -104,6 +104,7 @@ async function DeleteDatabaseTask(bubbleBody) {
 }
 
 async function SignOut() {
+    console.log("vadfv");
     try {
         await signOut(auth);
         console.log("User Signed Out Successfully!");
