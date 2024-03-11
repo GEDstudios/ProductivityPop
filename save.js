@@ -105,7 +105,7 @@ async function DeleteDatabaseTask(bubbleBody) {
 
 async function SignOut() {
     if (auth.user == null) return;
-    SignOut(auth).then(() => {
+    signOut(auth).then(() => {
         console.log("signed out " + auth.user);
     }).catch((error) => {
         console.log("signed out failed");
