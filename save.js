@@ -105,7 +105,7 @@ async function DeleteDatabaseTask(bubbleBody) {
 
 async function SignOut() {
     if (auth.user == null) return;
-    SignOut(auth);
+    await SignOut(auth);
 }
 
 const querySnapshot = await getDocs(collection(db, "tasks"));
