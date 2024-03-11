@@ -35,7 +35,6 @@ onAuthStateChanged(auth, (user) => {
         }
         else {
             console.log("not guy ekstein");
-            loginDiv.firstChild.innerHTML = "Pleas be <br> Guy Ekstein</br>"
         }
     }
     else {
