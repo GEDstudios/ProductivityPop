@@ -246,3 +246,7 @@ body {
   border: none;
   border-radius: 50%;
 }
+
+.logout-btn:active {
+  background-color: rgb(221, 133, 133);
+}
