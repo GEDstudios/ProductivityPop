@@ -80,7 +80,6 @@ document.addEventListener("DOMContentLoaded", event => {
     sizeButtonDivs[i].style.padding = btn.value * 1.5 + "rem";
     btn.addEventListener("click", SetNewBubbleScale);
   });
-  console.log(render.context.getTransform().a);
 });
 
 function ToggleZoomDiv() {
@@ -259,7 +258,7 @@ Events.on(mouseConstraint, "mouseup", function (e) {
 
 //#region UPDATE
 Events.on(engine, "beforeUpdate", function () {
-
+  console.log(render.context.getTransform().a);
   ScaleBoard();
 
   SetBubblesAttraction()
