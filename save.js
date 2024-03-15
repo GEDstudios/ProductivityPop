@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
 import { getFirestore, collection, addDoc, updateDoc, doc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut, setDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -48,13 +48,7 @@ async function SignIn() {
 
     signInWithPopup(auth, provider)
         .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // ...
+
         }).catch((error) => {
             // Handle Errors here.
             const errorCode = error.code;
@@ -69,7 +63,7 @@ async function SignIn() {
 
 async function CreateDatabaseTask(bubbleBody) {
     try {
-        const taskRef = await addDoc(collection(db, "tasks"), {
+        const taskRef = await addDoc(collection(db, "users", auth.user.uid, "tasks"), {
             title: bubbleBody.title,
             date: bubbleBody.date != null ? bubbleBody.date : "",
             color: bubbleBody.render.fillStyle,
