@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", event => {
     sizeButtonDivs[i].style.padding = btn.value * 1.5 + "rem";
     btn.addEventListener("click", SetNewBubbleScale);
   });
-  render.context.getTransform().a
+  console.log(render.context.getTransform().a);
 });
 
 function ToggleZoomDiv() {
