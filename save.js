@@ -27,14 +27,22 @@ const provider = new GoogleAuthProvider();
 
 const loginDiv = document.querySelector(".login-div");
 
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        loginDiv.remove();
+        PopulateTasksFromDatabase();
+    } else {
+        console.log("no user");
+    }
+});
+
 async function SignIn() {
 
     if (auth.user != null) return;
 
     signInWithPopup(auth, provider)
         .then(() => {
-            loginDiv.remove();
-            PopulateTasksFromDatabase();
+
         })
 }
 
@@ -52,8 +60,7 @@ async function CreateDatabaseTask(bubbleBody) {
             title: bubbleBody.title,
             date: bubbleBody.date != null ? bubbleBody.date : "",
             color: bubbleBody.render.fillStyle,
-            scale: bubbleBody.scaler,
-            taskboard: "board"
+            scale: bubbleBody.scaler
         });
         bubbleBody.id = taskRef.id;
         console.log("Document added with ID: ", bubbleBody.id);
