@@ -68,7 +68,8 @@ async function CreateDatabaseTask(bubbleBody) {
             title: bubbleBody.title,
             date: bubbleBody.date != null ? bubbleBody.date : "",
             color: bubbleBody.render.fillStyle,
-            scale: bubbleBody.scaler
+            scale: bubbleBody.scaler,
+            taskboard: "board"
         });
         bubbleBody.id = taskRef.id;
         console.log("Document added with ID: ", bubbleBody.id);
