@@ -201,6 +201,18 @@ body {
   box-shadow: 0 0 50px #c23;
 }
 
+.zoom-div {
+  position: absolute;
+  background-color: transparent;
+  display: none;
+  width: 100%;
+  height: 100%;
+}
+
+.zoom-div.active {
+  display: inline;
+}
+
 .login-div {
   width: 100%;
   height: 100%;
