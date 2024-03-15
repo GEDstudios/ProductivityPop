@@ -90,6 +90,7 @@ async function DeleteDatabaseTask(bubbleBody) {
 async function SignOut() {
     signOut(auth).then(() => {
         console.log("logged out");
+        location.reload();
     }).catch((error) => {
         console.log("error");
     });
