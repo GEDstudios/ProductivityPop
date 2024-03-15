@@ -62,6 +62,7 @@ async function SignIn() {
 }
 
 async function CreateDatabaseTask(bubbleBody) {
+    console.log(auth.user.uid);
     try {
         const taskRef = await addDoc(collection(db, "users", auth.user.uid, "tasks"), {
             title: bubbleBody.title,
