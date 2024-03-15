@@ -180,7 +180,6 @@ body {
 .zoom-btn {
   right: 0%;
   margin: 50px;
-  z-index: 1;
   position: absolute;
   display: none;
   background-color: transparent;
