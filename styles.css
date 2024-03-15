@@ -3,14 +3,11 @@
   padding: 0;
   box-sizing: border-box;
 }
-:root {
-  touch-action: pan-x pan-y;
-  height: 100%;
-}
 html,
 body {
   margin: 0;
-  height: 100vh;
+  touch-action: pan-x pan-y;
+  height: 100%;
   background-color: #fff;
   font-family: "Rubik", sans-serif;
   overflow: hidden;
