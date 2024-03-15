@@ -6,7 +6,7 @@ let defaultTaskTitle = "Task Name";
 let popCancelDelay = 200;
 let editHoldDelay = 1000;
 let editPosition = { x: window.innerWidth / 2, y: window.innerHeight / 4 };
-let editMovementBuffer = 50;
+let editMovementBuffer = 30;
 
 //#region Utilities
 function lerp(t, MinInput, MaxInput, MinOutput, MaxOutput) {

@@ -80,7 +80,7 @@ document.addEventListener("DOMContentLoaded", event => {
     sizeButtonDivs[i].style.padding = btn.value * 1.5 + "rem";
     btn.addEventListener("click", SetNewBubbleScale);
   });
-  console.log("balls");
+
 });
 
 function ToggleZoomDiv() {
@@ -240,11 +240,11 @@ Events.on(mouseConstraint, "mouseup", function (e) {
       mouseTarget.taskBubble.ClearOutline();
 
       let clickDuration = engine.timing.timestamp - lastMouseDownTime;
-      if (clickDuration < popCancelDelay) {
-        mouseTarget.taskBubble.PopBubble();
-      }
 
       if (Vector.magnitude(Vector.sub(startMousePos, mouse.position)) <= editMovementBuffer) {
+        if (clickDuration < popCancelDelay) {
+          mouseTarget.taskBubble.PopBubble();
+        }
         if (clickDuration > editHoldDelay) {
           StartEditingTask(mouseTarget.taskBubble);
         }
