@@ -28,11 +28,13 @@ class TaskBubble {
 
 
     StartModify() {
-        this.editCache = {
-            title: bubbleBody.title,
-            date: bubbleBody.date != null ? bubbleBody.date : "",
-            color: bubbleBody.render.fillStyle,
-            scale: bubbleBody.scaler
+        if (this.body.id.length > 0) {
+            this.editCache = {
+                title: bubbleBody.title,
+                date: bubbleBody.date != null ? bubbleBody.date : "",
+                color: bubbleBody.render.fillStyle,
+                scale: bubbleBody.scaler
+            }
         }
         titleInput.value = this.body.title;
         dateInput.value = null;
