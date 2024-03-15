@@ -258,7 +258,7 @@ Events.on(mouseConstraint, "mouseup", function (e) {
 
 //#region UPDATE
 Events.on(engine, "beforeUpdate", function () {
-  console.log(render.context.getTransform().a);
+
   ScaleBoard();
 
   SetBubblesAttraction()
