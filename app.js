@@ -155,6 +155,7 @@ function DeleteEditedTask() {
     Composite.remove(engine.world, editedBubble.body);
   }
   else {
+    editedBubble.resetValues();
     editedBubble.FinishModify();
   }
   editedBubble = null;

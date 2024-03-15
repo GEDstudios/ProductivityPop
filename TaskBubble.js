@@ -26,8 +26,14 @@ class TaskBubble {
         Body.scale(this.body, ClusterScaler * scale, ClusterScaler * scale);
     }
 
-    StartModify() {
 
+    StartModify() {
+        this.editCache = {
+            title: bubbleBody.title,
+            date: bubbleBody.date != null ? bubbleBody.date : "",
+            color: bubbleBody.render.fillStyle,
+            scale: bubbleBody.scaler
+        }
         titleInput.value = this.body.title;
         dateInput.value = null;
         if (this.body.date != null) {
@@ -52,7 +58,12 @@ class TaskBubble {
         this.ClearOutline();
         clearInterval(this.editInterval);
     }
-
+    resetValues() {
+        this.body.title = this.editCache.title;
+        this.body.date = this.editCache.date;
+        this.body.render.fillStyle = this.editCache.color;
+        this.SetScale(this.editCache.scale);
+    }
     StartPress() {
         const endWidth = window.innerHeight * 0.015;
         this.outlineInterval = setInterval(() => {
