@@ -41,7 +41,7 @@ async function SignIn() {
 async function PopulateTasksFromDatabase() {
     const querySnapshot = await getDocs(collection(db, "users", auth.currentUser.uid, "tasks"));
     querySnapshot.forEach((doc) => {
-        task = doc.data();
+        const task = doc.data();
         new TaskBubble(GetRandomPositionOutsideScreen(100), task.title, task.date, task.color, task.scale, doc.id);
     });
 }
