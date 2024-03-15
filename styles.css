@@ -178,8 +178,8 @@ body {
 }
 
 .zoom-btn {
-  left: calc(50% - 3rem);
-  bottom: 0%;
+  /* left: calc(50% - 3rem); */
+  right: 0%;
   width: 4rem;
   height: 4rem;
   margin: 1.5rem;
