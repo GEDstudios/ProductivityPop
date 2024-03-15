@@ -57,7 +57,7 @@ let rendererScale = 1;
 let ClusterScaler = 1;
 
 //#region Refrence Html Elements
-const infoDiv = document.querySelector(".info-div");
+//const infoDiv = document.querySelector(".info-div");
 const zoomDiv = document.querySelector(".zoom-div");
 const zoomBtnIcon = document.querySelector(".zoom-btn-icon");
 const addTaskForm = document.querySelector(".add-task");
@@ -98,9 +98,9 @@ function ToggleZoomDiv() {
   }
 }
 
-function ToggleInfo() {
-  infoDiv.classList.toggle("active");
-}
+// function ToggleInfo() {
+//   infoDiv.classList.toggle("active");
+// }
 
 //#region Task Editing and Creation
 let editedBubble;
