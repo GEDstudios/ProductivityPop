@@ -64,7 +64,7 @@ async function SignIn() {
 async function CreateDatabaseTask(bubbleBody) {
     console.log(auth.user.uid);
     try {
-        const taskRef = await addDoc(collection(db, "users", auth.user.uid, "tasks"), {
+        const taskRef = await addDoc(collection(db, "users", auth.currentUser.uid, "tasks"), {
             title: bubbleBody.title,
             date: bubbleBody.date != null ? bubbleBody.date : "",
             color: bubbleBody.render.fillStyle,
