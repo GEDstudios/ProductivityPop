@@ -9,11 +9,12 @@
     <link rel="stylesheet" type="text/css" href="styles.css" />
   </head>
   <body>      
+    <button class="logout-btn" onclick="SignOut(  );">Log Out</button>
 
     <!-- zoom-->
     <div class="zoom-div"></div>
     <button class="zoom-btn" onclick="ToggleZoomDiv();"><?xml version="1.0" encoding="iso-8859-1"?>
-      <svg class="zoom-btn-icon" fill="#aaa" height="80px" width="80px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+      <svg class="zoom-btn-icon" fill="#aaa" height="4rem" width="4rem" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
          viewBox="0 0 299.998 299.998" xml:space="preserve">
       <g>
         <g>
@@ -31,9 +32,28 @@
           </g>
         </g>
       </g>
-      </svg></button>
+      </svg>
+    </button>
 
-      <!-- add task form-->
+     <button class="info-btn" onclick="ToggleInfo();">?</button>
+
+    <!-- Info Div -->
+    <div class="info-div">
+      <button class="close-info-btn" onclick="ToggleInfo()"></button>
+      <div class="info-popup">
+        <h1>Info</h1>
+        <br>
+        <ul>
+          <li>Press + to add task</li>
+          <li>Tap to pop task</li>
+          <li>Hold to edit task</li>
+        </ul>
+        <br>
+        <h3>Made by Guy Ekstein</h3>
+        <a href="https://www.x10guy.studio/" target=”_blank”>website</a>
+      </div>
+    </div>
+    <!-- add task form-->
     <div class="add-task">
 
       <div class="add-task-backdrop"></div>
@@ -68,7 +88,6 @@
       </div>
     </div>
     
-    <button class="logout-btn" onclick="SignOut();">Log Out</button>
 
     <!--login-->
     <div class="login-div">

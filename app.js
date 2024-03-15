@@ -57,6 +57,7 @@ let rendererScale = 1;
 let ClusterScaler = 1;
 
 //#region Refrence Html Elements
+const infoDiv = document.querySelector(".info-div");
 const zoomDiv = document.querySelector(".zoom-div");
 const zoomBtnIcon = document.querySelector(".zoom-btn-icon");
 const addTaskForm = document.querySelector(".add-task");
@@ -95,6 +96,10 @@ function ToggleZoomDiv() {
 
     render.context.translate(-render.canvas.width / 3, -render.canvas.height / 3)
   }
+}
+
+function ToggleInfo() {
+  infoDiv.classList.toggle("active");
 }
 
 //#region Task Editing and Creation
