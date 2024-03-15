@@ -24,6 +24,7 @@ const db = getFirestore(app);
 
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+provider.setCustomParameters({ prompt: 'select_account' })
 
 const loginDiv = document.querySelector(".login-div");
 
