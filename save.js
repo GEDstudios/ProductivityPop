@@ -38,9 +38,6 @@ onAuthStateChanged(auth, (user) => {
 });
 
 async function SignIn() {
-
-    if (auth.user != null) return;
-
     signInWithPopup(auth, provider)
         .then(() => {
 
