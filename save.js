@@ -27,42 +27,26 @@ const provider = new GoogleAuthProvider();
 
 const loginDiv = document.querySelector(".login-div");
 
-
-onAuthStateChanged(auth, (user) => {
-    if (user) {
-        if (user.email == "guyguyeks@gmail.com") {
-            loginDiv.remove();
-        }
-        else {
-            console.log("not guy ekstein");
-        }
-    }
-    else {
-        console.log("no user");
-    }
-});
-
 async function SignIn() {
 
     if (auth.user != null) return;
 
     signInWithPopup(auth, provider)
-        .then((result) => {
+        .then(() => {
+            loginDiv.remove();
+            PopulateTasksFromDatabase();
+        })
+}
 
-        }).catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // The email of the user's account used.
-            const email = error.customData.email;
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            // ...
-        });
+async function PopulateTasksFromDatabase() {
+    const querySnapshot = await getDocs(collection(db, "users", auth.currentUser.uid, "tasks"));
+    querySnapshot.forEach((doc) => {
+        task = doc.data();
+        new TaskBubble(GetRandomPositionOutsideScreen(100), task.title, task.date, task.color, task.scale, doc.id);
+    });
 }
 
 async function CreateDatabaseTask(bubbleBody) {
-    console.log(auth.currentUser.uid);
     try {
         const taskRef = await addDoc(collection(db, "users", auth.currentUser.uid, "tasks"), {
             title: bubbleBody.title,
@@ -79,7 +63,7 @@ async function CreateDatabaseTask(bubbleBody) {
 }
 
 async function EditDatabaseTask(bubbleBody) {
-    const taskRef = doc(collection(db, "tasks"), bubbleBody.id);
+    const taskRef = doc(collection(db, "users", auth.currentUser.uid, "tasks"), bubbleBody.id);
     await updateDoc(taskRef, {
         title: bubbleBody.title,
         date: bubbleBody.date != null ? bubbleBody.date : "",
@@ -91,23 +75,17 @@ async function EditDatabaseTask(bubbleBody) {
 }
 
 async function DeleteDatabaseTask(bubbleBody) {
-    const id = bubbleBody.id;
-    const taskRef = doc(collection(db, "tasks"), id);
+    const taskRef = doc(collection(db, "users", auth.currentUser.uid, "tasks"), bubbleBody.id);
     await deleteDoc(taskRef);
 }
 
 async function SignOut() {
     signOut(auth).then(() => {
-        console.log("a");
+        console.log("logged out");
     }).catch((error) => {
-        console.log("b");
+        console.log("error");
     });
 }
-
-const querySnapshot = await getDocs(collection(db, "tasks"));
-querySnapshot.forEach((doc) => {
-    new TaskBubble(GetRandomPositionOutsideScreen(100), doc.data().title, doc.data().date, doc.data().color, doc.data().scale, doc.id);
-});
 
 window.CreateDatabaseTask = CreateDatabaseTask;
 window.EditDatabaseTask = EditDatabaseTask;
