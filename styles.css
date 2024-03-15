@@ -216,6 +216,8 @@ body {
   position: absolute;
   backdrop-filter: blur(20px) brightness(110%);
   display: flex;
+  gap: 50px;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   background-color: #fff7;
@@ -223,9 +225,9 @@ body {
 
 .login-btn {
   font-weight: 600;
-  width: 20rem;
-  height: 20rem;
-  font-size: 2rem;
+  width: 8rem;
+  height: 8rem;
+  font-size: 1.5rem;
   color: white;
   background-color: black;
   border: none;
